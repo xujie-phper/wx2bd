@@ -2,10 +2,10 @@
 
 ## Quick Start
 ###  获取代码
-> git clone http://gitlab.baidu.com/wangpanfe/wx2swan.git
+> git clone https://github.com/xujie-phper/wx2bd.git
 
 ### 进入项目目录，安装依赖
-> cd wx2swan
+> cd wx2bd
 
 > npm i
 
@@ -19,6 +19,6 @@
 
 ### 项目介绍
 
-[小程序互转文档](http://agroup.baidu.com/wangpanfe/md/article/2011764)
+[小程序互转文档](https://github.com/xujie-phper/huge-skills-summary/issues/21)
 
 
