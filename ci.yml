@@ -1,0 +1,10 @@
+Global:
+  tool: build_submitter
+Default:
+  profile: [change]
+Profiles:
+  - profile:
+    name: change
+    env: cmc_standard
+    command: sh ./build.sh
+    release: false

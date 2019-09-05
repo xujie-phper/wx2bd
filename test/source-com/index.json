@@ -1,0 +1,14 @@
+{
+    "usingComponents": {
+        "list": "/path/to/list",
+        "hello-world": "/path/to/HelloWorld",
+        "table-head": "/path/to/table_head",
+        "normal": "/path/to/normal",
+        "with1": "/path/to/with1"
+    },
+    "componentGenerics": {
+        "selectable": {
+            "default": "path/to/default/component"
+        }
+    }
+}

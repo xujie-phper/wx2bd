@@ -1,0 +1,39 @@
+.u-noticebar {
+    display: flex;
+    height: 72rpx;
+    line-height: 72rpx;
+    font-size: 14px;
+    color: #06A7FF;
+    background-color: #ecf5ff;
+    overflow: hidden
+}
+
+.u-noticebar-icon {
+    display: flex;
+    margin-left: 30rpx;
+    align-items: center
+}
+
+.u-noticebar-icon+view {
+    margin-left: 10rpx
+}
+
+.u-noticebar-operation {
+    display: flex;
+    margin-right: 16rpx;
+    align-items: center
+}
+
+.u-noticebar-content-wrap {
+    position: relative;
+    flex: 1;
+    margin: 0 30rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.u-noticebar-content-wrap .u-noticebar-content {
+    position: absolute;
+    transition-duration: 20s
+}

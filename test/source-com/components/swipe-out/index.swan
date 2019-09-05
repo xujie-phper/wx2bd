@@ -1,0 +1,41 @@
+<view class='u-class u-swipe-wrap'>
+    <view class="u-swipe-body" bindtouchstart='handleTouchStart' bindtouchmove='handleTouchMove' bindtouchend='handleTouchEnd' style='{{parse.setPosition(position)}}'>
+        <view class="u-swipe-content">
+            <slot name="content"></slot>
+        </view>
+        <view s-if='actions.length > 0' class="u-swipe-btn-group" catchtouchend='catchHandler'>
+            <view class="u-swipe-btn-item" s-for='item, index in actions' s-key='{{index}}' data-index='{{index}}' bindtap='handleButtonTap' style="{{parse.setStyle(item)}}">
+                <u-icon s-if='item.icon' type='{{item.icon}}' size='{{item.fontsize}}' color='{{item.color}}'>
+                </u-icon>
+                {{item.name}}
+            </view>
+        </view>
+        <view class="u-swipe-btn-group" catchtouchend='catchHandler' s-if='actions.length === 0' catchtap='handleCustomTap'>
+            <slot name="button"></slot>
+        </view>
+    </view>
+</view>
+<filter module="parse">
+    var some_msg = "hello world";
+    export default {
+        setStyle: function (item) {
+            var defaultBackColor = '#f7f7f7';
+            return 'background-color: ' + (item.background ? item.background : defaultBackColor) + '; color: ' + item.color + '; width: ' + item.width + 'px;';
+        },
+        setPosition: function (position) {
+            return 'transform: translateX(' + position.pageX + 'px);';
+        }
+    }
+</filter>
+<filter module="xxxxx">
+    var some_msg = "hello world";
+    export default {
+        setStyle: function (item) {
+            var defaultBackColor = '#f7f7f7';
+            return 'background-color: ' + (item.background ? item.background : defaultBackColor) + '; color: ' + item.color + '; width: ' + item.width + 'px;';
+        },
+        setPosition: function (position) {
+            return 'transform: translateX(' + position.pageX + 'px);';
+        }
+    }
+</filter>

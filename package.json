@@ -1,0 +1,67 @@
+{
+    "name": "swan",
+    "version": "1.0.0",
+    "author": "xujie07@baidu.com",
+    "bin": {
+        "swan": "bin/cli.js"
+    },
+    "scripts": {
+        "build": "gulp build",
+        "prepublishOnly": "npm run build",
+        "zip": "sh zip.sh"
+    },
+    "main": "index.js",
+    "bundleDependencies": false,
+    "dependencies": {
+        "@babel/traverse": "^7.5.5",
+        "babel-generator": "^6.26.0",
+        "babel-traverse": "^6.26.0",
+        "babel-types": "^6.26.0",
+        "babylon": "^6.18.0",
+        "chalk": "^2.4.1",
+        "co": "^4.6.0",
+        "commander": "^3.0.0",
+        "dependency-graph": "^0.7.1",
+        "detect-indent": "^5.0.0",
+        "entities": "^1.1.1",
+        "figlet": "^1.2.3",
+        "fs-extra": "^7.0.0",
+        "inquirer": "^6.5.1",
+        "lodash": "^4.17.10",
+        "minimist": "^1.2.0",
+        "mkdirp": "^0.5.1",
+        "ora": "^3.4.0",
+        "recursive-copy": "^2.0.7",
+        "regexgen": "^1.3.0",
+        "request-promise": "^4.2.4",
+        "stricter-htmlparser2": "^3.9.6",
+        "unified": "^7.0.0",
+        "vfile": "^3.0.0"
+    },
+    "deprecated": false,
+    "description": "微信小程序 转换 百度小程序",
+    "devDependencies": {
+        "@babel/generator": "^7.5.5",
+        "@babel/parser": "^7.5.5",
+        "babel-core": "^6.0.20",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-stage-0": "^6.0.15",
+        "del": "^3.0.0",
+        "gulp": "^4.0.2",
+        "gulp-babel": "^7.0.1",
+        "jest": "^24.8.0"
+    },
+    "engines": {
+        "node": ">=8.5.0"
+    },
+    "keywords": [
+        "小程序",
+        "微信小程序",
+        "百度小程序",
+        "转换",
+        "swan",
+        "wx"
+    ],
+    "license": "MIT"
+}

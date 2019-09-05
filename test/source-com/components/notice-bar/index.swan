@@ -1,0 +1,9 @@
+<view s-if=" show " class="u-class u-noticebar" style="color: {{ color }}; background-color: {{ backgroundcolor }}">
+    <u-icon s-if=" icon " type="{{ icon }}" size="24" color="{{color}}" class="u-noticebar-icon"></u-icon>
+    <view class="u-noticebar-content-wrap">
+        <view class="u-noticebar-content {{loop?'u-noticebar-content-loop':''}}" animation="{{ animationData }}">
+           <slot></slot>
+        </view>
+    </view>
+    <u-icon s-if="closable" class="u-noticebar-operation" type="close" size="28" color="{{color}}" bindtap="handleClose"></u-icon>
+</view>

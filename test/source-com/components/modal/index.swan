@@ -1,0 +1,40 @@
+<view class="u-modal-mask u-class-mask {{ visible ? 'u-modal-mask-show' : '' }}"></view>
+<view class="u-class u-modal {{ visible ? 'u-modal-show' : '' }}">
+    <view class="u-modal-main">
+        <view class="u-modal-content">
+            <view class="u-modal-title" s-if=" title ">{{ title }}</view>
+            <view class="u-modal-body"><slot></slot></view>
+            <view class="u-modal-actions" s-if=" actions.length ">
+                <block s-if=" actionMode === 'horizontal' ">
+                    <u-grid length="{{actions.length || 2}}" u-class="u-modal-grid">
+                        <u-grid-item swanId="9.643225223763523" class="9.643225223763523" length="{{actions.length || 2}}" u-class="{{ actions.length === (index + 1) ? 'u-modal-grid-item-last' : 'u-modal-grid-item' }}" s-for="item, index in  actions " s-key="{{ item.name }}">
+                            <template is="button" data="{{{ item, index }}}"></template>
+                        </u-grid-item>
+                    </u-grid>
+                </block>
+                <block s-else>
+                    <view class="u-modal-action-vertical" s-for="item, index in  actions " s-key="{{ item.name }}">
+                        <template is="button" data="{{{ item, index }}}"></template>
+                    </view>
+                </block>
+            </view>
+            <view class="u-modal-actions" s-else>
+                <u-grid length="{{actions.length || 2}}" u-class="u-modal-grid" s-if=" showOk || showCancel ">
+                    <u-grid-item swanId="9.643225223763523" class="9.643225223763523" length="{{actions.length || 2}}" u-class="u-modal-grid-item" s-if=" showCancel ">
+                        <u-button u-class="u-modal-btn-cancel" long type="ghost" bindtap="handleClickCancel">{{ cancelText }}</u-button>
+                    </u-grid-item>
+                    <u-grid-item swanId="9.643225223763523" class="9.643225223763523" length="{{actions.length || 2}}" u-class="u-modal-grid-item-last" s-if=" showOk ">
+                        <u-button u-class="u-modal-btn-ok" long type="ghost" bindtap="handleClickOk">{{ okText }}</u-button>
+                    </u-grid-item>
+                </u-grid>
+            </view>
+        </view>
+    </view>
+</view>
+<template name="button">
+    <u-button long type="ghost" data-index="{{ index }}" bindtap="handleClickItem">
+        <view class="u-modal-btn-loading" s-if=" item.loading "></view>
+        <u-icon s-if=" item.icon " type="{{ item.icon }}" u-class="u-modal-btn-icon"></u-icon>
+        <view class="u-modal-btn-text" style="{{ item.color ? 'color: ' + item.color : '' }}">{{ item.name }}</view>
+    </u-button>
+</template>

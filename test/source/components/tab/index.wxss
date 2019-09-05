@@ -1,0 +1,39 @@
+/* components/tab/index.wxss */
+
+.u-tabs-tab{
+    flex: 1;
+    display: flex;
+    width: 100%;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+}
+.u-tabs-tab-bar {
+    display: block;
+    width: 100%;
+    height: 4rpx;
+    background: transparent;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #2d8cf0;
+}
+.u-tabs-tab-title {
+    font-size: 28rpx;
+    text-align: center;
+    box-sizing: border-box;
+    color: #80848f;
+}
+.u-tabs-tab-title-current {
+    color: #2d8cf0;
+}
+.u-tabs-tab-scroll {
+    display: inline-block;
+    width: 120rpx;
+}
