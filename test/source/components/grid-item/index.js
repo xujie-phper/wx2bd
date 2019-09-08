@@ -12,6 +12,9 @@ Component({
         '../grid/index': {
             type: 'parent'
         },
+        '../grid-icon/index': {
+            type: 'child'
+        }
     },
 
     data: {

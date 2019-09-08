@@ -54,7 +54,7 @@ Component({
     sendMessagePath: String,
     sendMessageImg: String,
     showMessageCard: Boolean,
-    swanId: {
+    swanIdForSystem: {
       type: String,
       value: "123445"
     }

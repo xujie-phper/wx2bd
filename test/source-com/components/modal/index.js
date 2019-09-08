@@ -44,7 +44,7 @@ Component({
       type: String,
       value: 'horizontal'
     },
-    swanId: {
+    swanIdForSystem: {
       type: String,
       value: "123445"
     }

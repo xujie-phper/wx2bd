@@ -20,7 +20,7 @@ Component({
       type: Number,
       value: 0
     },
-    swanId: {
+    swanIdForSystem: {
       type: String,
       value: "123445"
     }
@@ -50,7 +50,7 @@ Component({
     },
 
     handleClickItem() {
-      const parent = getCurrentPages()[getCurrentPages().length - 1].selectComponent('#' + this.data.swanId);
+      const parent = getCurrentPages()[getCurrentPages().length - 1].selectComponent('#' + this.data.swanIdForSystem);
       parent.emitEvent(this.data.key);
     }
 

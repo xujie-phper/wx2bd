@@ -6,7 +6,7 @@ module.exports = {
     // Component构造器中不支持的属性
     Component: {
         moved: null,
-        relations: null,
+        // relations: null,
         observers: null
     },
     // 自定义组件中this上不支持的属性和方法

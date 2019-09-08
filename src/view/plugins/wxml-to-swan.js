@@ -8,6 +8,8 @@ const utils = require('../../util/index');
 let contextStore = require('../../store/context');
 let componentPrevName = '';
 let componentUniqueFlag = Math.random() * 10 + '';
+const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';
+let prevParentNodeName = '';
 
 module.exports = function wxmlToSwan(options = {}) {
     return function transformTree(tree, file) {
@@ -170,6 +172,10 @@ function transformComponent(node, file, options) {
     let addNodeAttrib = {};
     let name = node.name;
 
+    if (relationComponentsChild.includes(node.name)) {
+        addNodeAttrib[SWAN_ID_FOR_SYSTEM] = componentUniqueFlag + '';
+        addNodeAttrib.class = attribs.class ? attribs.class + ' ' + componentUniqueFlag : componentUniqueFlag;
+    }
     if (relationComponentsParent.includes(node.name)) {
         if (attribs.id) {
             //TODO 替换了原有的标签ID，输出一条warning日志
@@ -177,11 +183,8 @@ function transformComponent(node, file, options) {
         componentUniqueFlag = Math.random() * 10 + '';
         componentPrevName = node.name;
 
-        addNodeAttrib.swanId = componentUniqueFlag + '';
+        addNodeAttrib[SWAN_ID_FOR_SYSTEM] = componentUniqueFlag + '';
         addNodeAttrib.id = componentUniqueFlag;
-    } else if (relationComponentsChild.includes(node.name)) {
-        addNodeAttrib.swanId = componentUniqueFlag + '';
-        addNodeAttrib.class = attribs.class ? attribs.class + ' ' + componentUniqueFlag : componentUniqueFlag;
     }
 
     if (typeof name === 'string' && /u-grid/i.test(name)) {

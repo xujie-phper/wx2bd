@@ -9,8 +9,10 @@ const logStore = require('./store/log');
 const contextStore = require('./store/context');
 const componentConf = require('../config/wxmp2swan/component');
 const path = require('path');
-let typeValue = '';     //记录relations中的type类型
+// let typeValue = '';     //记录relations中的type类型
+let relationsMap = {};  //记录relations中的map映射关系
 const propertiesString = 'xujie-xXksjUhmbvhaks';    //临时字面量
+const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加的属性
 
 exports.transformApiContent = function transformViewContent(content, api, prefix, transformedCtx, file) {
     const result = parser.parse(content, {
@@ -38,13 +40,13 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                         if (e.key && e.key.name === 'properties') {
                             hasProperties = true;
                             let hasFound = e.value.properties.find(prop=>{
-                                return prop.key.name === 'swanId'
+                                return prop.key.name === SWAN_ID_FOR_SYSTEM
                             });
                             if(hasFound){
                                 return;
                             }
 
-                            e.value.properties.push(t.objectProperty(t.identifier('swanId'), t.objectExpression([t.objectProperty(t.identifier('type'),t.identifier('String')),t.objectProperty(t.identifier('value'),t.stringLiteral('123445'))]), false, false, null))
+                            e.value.properties.push(t.objectProperty(t.identifier(SWAN_ID_FOR_SYSTEM), t.objectExpression([t.objectProperty(t.identifier('type'),t.identifier('String')),t.objectProperty(t.identifier('value'),t.stringLiteral('123445'))]), false, false, null))
                             e.value = t.objectExpression(e.value.properties);
                         }
                     });
@@ -58,7 +60,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                     path.traverse({
                         StringLiteral(strPath) {
                             if (strPath.node.value === propertiesString) {
-                                let code = `{length: {type: Number,value: 2},swanId:{type: String,value: '123456'}}`;
+                                let code = `{length: {type: Number,value: 2},${SWAN_ID_FOR_SYSTEM}:{type: String,value: '123456'}}`;
                                 strPath.replaceWithSourceString(code);
                             }
                         },
@@ -86,6 +88,8 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
             if (path.node.type === 'ObjectProperty' && path.node.key.name === 'relations') {
                 //获取到relations属性中type的value
                 //获取到relations属性中linked函数
+                let componentName = '';
+                let relationsValue = '';
                 path.traverse({
                     ObjectMethod(path) {
                         if (path.node.key.name === 'linked') {
@@ -93,8 +97,22 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                         }
                     },
                     ObjectProperty(path) {
+                        if(path.node.key.type === 'StringLiteral' && path.node.key.value){
+                            //依赖好像有点强
+                            relationsValue = path.node.key.value || '';
+                            let index = relationsValue.lastIndexOf('./');
+                            let lastIndex = relationsValue.lastIndexOf('/');
+                            componentName = relationsValue.substring(index + 2, lastIndex);
+                        }
                         if (path.node.key.name === 'type') {
-                            typeValue = path.node.value.value;
+                            // TODO 添加组件库前缀，需要用户自己选择
+                            componentName = 'u-' + componentName;
+                            let action = path.node.value.value === 'parent' ? 'relationComponentsParent' : 'relationComponentsChild';
+                            contextStore.dispatch({
+                                action,
+                                payload: componentName
+                            });
+                            relationsMap[relationsValue] = path.node.value.value;
                         }
                     }
                 });
@@ -104,13 +122,6 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                 } else {
                     path.replaceWith(t.objectMethod('method', t.identifier('attached'), [], linkedBody, false));
                 }
-
-                contextStore.dispatch({
-                    action:'relationsFilePath',
-                    payload:{
-                        file:file.replace(/\.js$/,'.swan')
-                    }
-                })
             }
             let selectMethod = '';
             if (path.node.type === 'ObjectProperty' && path.node.key.name === 'methods') {
@@ -133,28 +144,13 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                             callPath.traverse({
                                 MemberExpression(path) {
                                     if (path.node.property.name === "getRelationNodes") {
-                                        //TODO xujie
-                                        //这里可能有问题，依赖太强
                                         let relationsValue = callPath.node.arguments[0].value || '';
-                                        let index = relationsValue.lastIndexOf('./');
-                                        let lastIndex = relationsValue.lastIndexOf('/');
-                                        let component = relationsValue.substring(index + 2, lastIndex);
-
-                                        // TODO 添加组件库前缀
-                                        component = 'u-' + component;
-                                        // component = 'this.data.swanId';
-                                        if (String(typeValue) === 'parent') {
-                                            selectMethod = `selectComponent('#'+this.data.swanId)`;
+                                        if (relationsMap[relationsValue] === 'parent') {
+                                            selectMethod = `selectComponent('#'+this.data.${SWAN_ID_FOR_SYSTEM})`;
                                         }
-                                        if (String(typeValue) === 'child') {
-                                            selectMethod = `selectAllComponents('.'+this.data.swanId)`;
+                                        if (relationsMap[relationsValue] === 'child') {
+                                            selectMethod = `selectAllComponents('.'+this.data.${SWAN_ID_FOR_SYSTEM})`;
                                         }
-
-                                        let action = String(typeValue) === 'parent' ? 'relationComponentsParent' : 'relationComponentsChild';
-                                        contextStore.dispatch({
-                                            action,
-                                            payload: component
-                                        });
 
                                         let relationReplaceCode = `getCurrentPages()[getCurrentPages().length - 1].${selectMethod}`;
                                         path.parentPath.replaceWithSourceString(relationReplaceCode);

@@ -22,6 +22,10 @@ Component({
     },
     swanId: {
       type: String
+    },
+    swanIdForSystem: {
+      type: String,
+      value: "123445"
     }
   },
   options: {

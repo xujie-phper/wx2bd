@@ -27,7 +27,7 @@ Component({
       type: Boolean,
       value: false
     },
-    swanId: {
+    swanIdForSystem: {
       type: String,
       value: "123445"
     }
@@ -35,7 +35,7 @@ Component({
   methods: {
     changeCurrent(val = this.data.current) {
       swan.test('123');
-      let items = getCurrentPages()[getCurrentPages().length - 1].selectAllComponents('.' + this.data.swanId);
+      let items = getCurrentPages()[getCurrentPages().length - 1].selectAllComponents('.' + this.data.swanIdForSystem);
       const len = items.length;
 
       if (len > 0) {

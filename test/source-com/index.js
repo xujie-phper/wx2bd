@@ -47,7 +47,7 @@ Component({
       type: Number,
       value: 2
     },
-    swanId: {
+    swanIdForSystem: {
       type: String,
       value: '123456'
     }
@@ -64,7 +64,7 @@ Component({
       type: Number,
       value: 2
     },
-    swanId: {
+    swanIdForSystem: {
       type: String,
       value: '123456'
     }

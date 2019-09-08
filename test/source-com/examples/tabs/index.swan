@@ -2,41 +2,41 @@
 
 <text>基本用法</text>
 
-<u-tabs swanId="2.413098279921384" id="2.413098279921384" current="{{ current }}" bindchange="handleChange">
-    <u-tab swanId="2.413098279921384" class="2.413098279921384" key="tab1" title="选项1"></u-tab>
-    <u-tab swanId="2.413098279921384" class="2.413098279921384" key="tab2" title="选项2"></u-tab>
-    <u-tab swanId="2.413098279921384" class="2.413098279921384" key="tab3" title="选项3"></u-tab>
+<u-tabs swanIdForSystem="3.6864063545629766" id="3.6864063545629766" current="{{ current }}" bindchange="handleChange">
+    <u-tab swanIdForSystem="3.6864063545629766" class="3.6864063545629766" key="tab1" title="选项1"></u-tab>
+    <u-tab swanIdForSystem="3.6864063545629766" class="3.6864063545629766" key="tab2" title="选项2"></u-tab>
+    <u-tab swanIdForSystem="3.6864063545629766" class="3.6864063545629766" key="tab3" title="选项3"></u-tab>
 </u-tabs>
 
 
 <text>自定义主题色</text>
 
-<u-tabs swanId="8.137494888151473" id="8.137494888151473" current="{{ current }}" color="#f759ab" bindchange="handleChange">
-    <u-tab swanId="8.137494888151473" class="8.137494888151473" key="tab1" title="选项1"></u-tab>
-    <u-tab swanId="8.137494888151473" class="8.137494888151473" key="tab2" title="选项2"></u-tab>
-    <u-tab swanId="8.137494888151473" class="8.137494888151473" key="tab3" title="选项3"></u-tab>
+<u-tabs swanIdForSystem="7.697895896604942" id="7.697895896604942" current="{{ current }}" color="#f759ab" bindchange="handleChange">
+    <u-tab swanIdForSystem="7.697895896604942" class="7.697895896604942" key="tab1" title="选项1"></u-tab>
+    <u-tab swanIdForSystem="7.697895896604942" class="7.697895896604942" key="tab2" title="选项2"></u-tab>
+    <u-tab swanIdForSystem="7.697895896604942" class="7.697895896604942" key="tab3" title="选项3"></u-tab>
 </u-tabs>
 
 
 <text>徽标</text>
 
-<u-tabs swanId="6.053546636109328" id="6.053546636109328" current="{{ current }}" bindchange="handleChange">
-    <u-tab swanId="6.053546636109328" class="6.053546636109328" key="tab1" title="选项1" count="3"></u-tab>
-    <u-tab swanId="6.053546636109328" class="6.053546636109328" key="tab2" title="选项2"></u-tab>
-    <u-tab swanId="6.053546636109328" class="6.053546636109328" key="tab3" title="选项3" dot></u-tab>
+<u-tabs swanIdForSystem="1.0130939441408482" id="1.0130939441408482" current="{{ current }}" bindchange="handleChange">
+    <u-tab swanIdForSystem="1.0130939441408482" class="1.0130939441408482" key="tab1" title="选项1" count="3"></u-tab>
+    <u-tab swanIdForSystem="1.0130939441408482" class="1.0130939441408482" key="tab2" title="选项2"></u-tab>
+    <u-tab swanIdForSystem="1.0130939441408482" class="1.0130939441408482" key="tab3" title="选项3" dot></u-tab>
 </u-tabs>
 
 
 <text>滚动</text>
 
-<u-tabs swanId="5.14331365653522" id="5.14331365653522" current="{{ current_scroll }}" scroll bindchange="handleChangeScroll">
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab1" title="选项1"></u-tab>
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab2" title="选项2"></u-tab>
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab3" title="选项3"></u-tab>
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab4" title="选项4"></u-tab>
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab5" title="选项5"></u-tab>
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab6" title="选项6"></u-tab>
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab7" title="选项7"></u-tab>
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab8" title="选项8"></u-tab>
-    <u-tab swanId="5.14331365653522" class="5.14331365653522" key="tab9" title="选项9"></u-tab>
+<u-tabs swanIdForSystem="6.867345989892861" id="6.867345989892861" current="{{ current_scroll }}" scroll bindchange="handleChangeScroll">
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab1" title="选项1"></u-tab>
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab2" title="选项2"></u-tab>
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab3" title="选项3"></u-tab>
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab4" title="选项4"></u-tab>
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab5" title="选项5"></u-tab>
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab6" title="选项6"></u-tab>
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab7" title="选项7"></u-tab>
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab8" title="选项8"></u-tab>
+    <u-tab swanIdForSystem="6.867345989892861" class="6.867345989892861" key="tab9" title="选项9"></u-tab>
 </u-tabs>

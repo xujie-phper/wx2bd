@@ -19,14 +19,14 @@ Component({
       type: Number,
       value: 2
     },
-    swanId: {
+    swanIdForSystem: {
       type: String,
       value: '123456'
     }
   },
   methods: {
     setGridItemWidth() {
-      const nodes = getCurrentPages()[getCurrentPages().length - 1].selectAllComponents('.' + this.data.swanId);
+      const nodes = getCurrentPages()[getCurrentPages().length - 1].selectAllComponents('.' + this.data.swanIdForSystem);
       const width = 100 / this.data.length;
       nodes.forEach(item => {
         item.setData({

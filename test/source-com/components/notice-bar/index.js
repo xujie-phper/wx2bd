@@ -31,7 +31,7 @@ Component({
       type: Number,
       value: 1000
     },
-    swanId: {
+    swanIdForSystem: {
       type: String,
       value: "123445"
     }
