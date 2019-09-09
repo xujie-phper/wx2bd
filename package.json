@@ -5,11 +5,7 @@
     "bin": {
         "swan": "bin/cli.js"
     },
-    "scripts": {
-        "build": "gulp build",
-        "prepublishOnly": "npm run build",
-        "zip": "sh zip.sh"
-    },
+    "scripts": {},
     "main": "index.js",
     "bundleDependencies": false,
     "dependencies": {

@@ -6,8 +6,8 @@
             <view class="u-modal-body"><slot></slot></view>
             <view class="u-modal-actions" s-if=" actions.length ">
                 <block s-if=" actionMode === 'horizontal' ">
-                    <u-grid swanIdForSystem="1.0036549218108948" id="1.0036549218108948" length="{{actions.length || 2}}" u-class="u-modal-grid">
-                        <u-grid-item swanIdForSystem="8.720913189732194" class="1.0036549218108948" id="8.720913189732194" length="{{actions.length || 2}}" u-class="{{ actions.length === (index + 1) ? 'u-modal-grid-item-last' : 'u-modal-grid-item' }}" s-for="item, index in  actions " s-key="{{ item.name }}">
+                    <u-grid swanIdForSystem="7.099649761304794" id="7.099649761304794" length="{{actions.length || 2}}" u-class="u-modal-grid">
+                        <u-grid-item swanIdForSystem="1.7262271742512958" class="7.099649761304794" id="1.7262271742512958" length="{{actions.length || 2}}" u-class="{{ actions.length === (index + 1) ? 'u-modal-grid-item-last' : 'u-modal-grid-item' }}" s-for="item, index in  actions " s-key="{{ item.name }}">
                             <template is="button" data="{{{ item, index }}}"></template>
                         </u-grid-item>
                     </u-grid>
@@ -19,11 +19,11 @@
                 </block>
             </view>
             <view class="u-modal-actions" s-else>
-                <u-grid swanIdForSystem="9.00982097205274" id="9.00982097205274" length="{{actions.length || 2}}" u-class="u-modal-grid" s-if=" showOk || showCancel ">
-                    <u-grid-item swanIdForSystem="0.24587631523115494" class="9.00982097205274" id="0.24587631523115494" length="{{actions.length || 2}}" u-class="u-modal-grid-item" s-if=" showCancel ">
+                <u-grid swanIdForSystem="8.833566372520512" id="8.833566372520512" length="{{actions.length || 2}}" u-class="u-modal-grid" s-if=" showOk || showCancel ">
+                    <u-grid-item swanIdForSystem="1.7738277090011079" class="8.833566372520512" id="1.7738277090011079" length="{{actions.length || 2}}" u-class="u-modal-grid-item" s-if=" showCancel ">
                         <u-button u-class="u-modal-btn-cancel" long type="ghost" bindtap="handleClickCancel">{{ cancelText }}</u-button>
                     </u-grid-item>
-                    <u-grid-item swanIdForSystem="7.197200456902295" class="0.24587631523115494" id="7.197200456902295" length="{{actions.length || 2}}" u-class="u-modal-grid-item-last" s-if=" showOk ">
+                    <u-grid-item swanIdForSystem="5.482806263821947" class="1.7738277090011079" id="5.482806263821947" length="{{actions.length || 2}}" u-class="u-modal-grid-item-last" s-if=" showOk ">
                         <u-button u-class="u-modal-btn-ok" long type="ghost" bindtap="handleClickOk">{{ okText }}</u-button>
                     </u-grid-item>
                 </u-grid>

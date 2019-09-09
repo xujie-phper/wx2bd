@@ -13,7 +13,6 @@ const wxmp2swan = require('../index');
 const argv = require('minimist')(process.argv.slice(2));
 const installConfig = require('../src/config/installConfig');
 const nowPath = process.cwd();
-let config = {};
 
 program
     .version(package.version)

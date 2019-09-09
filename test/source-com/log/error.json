@@ -5,51 +5,6 @@
         "message": "自定义组件---json[componentGenerics]: 不支持的属性"
     },
     {
-        "type": "Component api",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/grid-icon/index.js",
-        "row": 4,
-        "column": 4,
-        "before": "relations: {\n  '../grid-item/index': {\n    type: 'parent'\n  }\n}",
-        "after": "relations: {\n  '../grid-item/index': {\n    type: 'parent'\n  }\n}",
-        "message": "自定义组件---relations: 没有相对应的方法"
-    },
-    {
-        "type": "Component api",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/grid-item/index.js",
-        "row": 11,
-        "column": 4,
-        "before": "relations: {\n  '../grid/index': {\n    type: 'parent'\n  },\n  '../grid-icon/index': {\n    type: 'child'\n  }\n}",
-        "after": "relations: {\n  '../grid/index': {\n    type: 'parent'\n  },\n  '../grid-icon/index': {\n    type: 'child'\n  }\n}",
-        "message": "自定义组件---relations: 没有相对应的方法"
-    },
-    {
-        "type": "Component api",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/grid/index.js",
-        "row": 11,
-        "column": 4,
-        "before": "relations: {\n  '../grid-item/index': {\n    type: 'child',\n\n    linked() {\n      this.setGridItemWidth();\n    },\n\n    linkChanged() {\n      this.setGridItemWidth();\n    },\n\n    unlinked() {\n      this.setGridItemWidth();\n    }\n\n  }\n}",
-        "after": "relations: {\n  '../grid-item/index': {\n    type: 'child',\n\n    linked() {\n      this.setGridItemWidth();\n    },\n\n    linkChanged() {\n      this.setGridItemWidth();\n    },\n\n    unlinked() {\n      this.setGridItemWidth();\n    }\n\n  }\n}",
-        "message": "自定义组件---relations: 没有相对应的方法"
-    },
-    {
-        "type": "Component api",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/tab/index.js",
-        "row": 6,
-        "column": 2,
-        "before": "relations: {\n  '../tabs/index': {\n    type: 'parent'\n  }\n}",
-        "after": "relations: {\n  '../tabs/index': {\n    type: 'parent'\n  }\n}",
-        "message": "自定义组件---relations: 没有相对应的方法"
-    },
-    {
-        "type": "Component api",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/tabs/index.js",
-        "row": 6,
-        "column": 4,
-        "before": "relations: {\n  '../tab/index': {\n    type: 'child',\n\n    linked(target) {\n      console.log(target, 'linked');\n      this.changeCurrent();\n    },\n\n    linkChanged(target) {\n      console.log(target, 'linkChanged');\n      this.changeCurrent();\n    },\n\n    unlinked(target) {\n      console.log(target, 'unlinked');\n      this.changeCurrent();\n    }\n\n  }\n}",
-        "after": "relations: {\n  '../tab/index': {\n    type: 'child',\n\n    linked(target) {\n      console.log(target, 'linked');\n      this.changeCurrent();\n    },\n\n    linkChanged(target) {\n      console.log(target, 'linkChanged');\n      this.changeCurrent();\n    },\n\n    unlinked(target) {\n      console.log(target, 'unlinked');\n      this.changeCurrent();\n    }\n\n  }\n}",
-        "message": "自定义组件---relations: 没有相对应的方法"
-    },
-    {
         "type": "replace with binary expression",
         "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
         "row": 5,
