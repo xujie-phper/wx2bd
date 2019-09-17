@@ -12,7 +12,8 @@ const path = require('path');
 // let typeValue = '';     //记录relations中的type类型
 let relationsMap = {};  //记录relations中的map映射关系
 const propertiesString = 'xujie-xXksjUhmbvhaks';    //临时字面量
-const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加的属性
+const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加属性
+let selectComponentNode = ''; //   保存onLoad中使用的selectComponent方法代码段
 
 exports.transformApiContent = function transformViewContent(content, api, prefix, transformedCtx, file) {
     const result = parser.parse(content, {
@@ -39,14 +40,14 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                     path.node.properties.find(e => {
                         if (e.key && e.key.name === 'properties') {
                             hasProperties = true;
-                            let hasFound = e.value.properties.find(prop=>{
+                            let hasFound = e.value.properties.find(prop => {
                                 return prop.key.name === SWAN_ID_FOR_SYSTEM
                             });
-                            if(hasFound){
+                            if (hasFound) {
                                 return;
                             }
 
-                            e.value.properties.push(t.objectProperty(t.identifier(SWAN_ID_FOR_SYSTEM), t.objectExpression([t.objectProperty(t.identifier('type'),t.identifier('String')),t.objectProperty(t.identifier('value'),t.stringLiteral('123445'))]), false, false, null))
+                            e.value.properties.push(t.objectProperty(t.identifier(SWAN_ID_FOR_SYSTEM), t.objectExpression([t.objectProperty(t.identifier('type'), t.identifier('String')), t.objectProperty(t.identifier('value'), t.stringLiteral('123445'))]), false, false, null))
                             e.value = t.objectExpression(e.value.properties);
                         }
                     });
@@ -97,7 +98,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                         }
                     },
                     ObjectProperty(path) {
-                        if(path.node.key.type === 'StringLiteral' && path.node.key.value){
+                        if (path.node.key.type === 'StringLiteral' && path.node.key.value) {
                             //依赖好像有点强
                             relationsValue = path.node.key.value || '';
                             let index = relationsValue.lastIndexOf('./');
@@ -161,13 +162,43 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                     },
                 });
             }
-        },
-        ObjectMethod(path) {
-            componentLog(path, file);
+            //处理onLoad调用this.selectComponent()方法
+            let selectComponentNode = '';
+            if (path.node.key.type === 'Identifier' && path.node.key.name === 'onLoad') {
+                path.traverse({
+                    AssignmentExpression(assignPath) {
+                        if (assignPath.node.right.type === 'CallExpression' && assignPath.node.right.callee.property.name === 'selectComponent') {
+                            //记录该节点
+                            selectComponentNode = assignPath;
+                            console.log(selectComponentNode, 'selectComponentNode---')
+                        }
+                    }
+                })
+            }
         },
         StringLiteral(path) {
             componentLog(path, file);
-        }
+        },
+        AssignmentExpression(path) {
+            if (path.node.right.type === 'CallExpression' && path.node.right.callee.property.name === 'selectComponent') {
+                let parent = path.findParent(path => {
+                    return path.isObjectMethod() && path.node.key.name === 'onLoad'
+                });
+                if (parent) {
+                    //记录该节点，替换到onReady中
+                    selectComponentNode = path;
+                }
+            }
+        },
+        ObjectMethod(path) {
+            if (path.node.key.type === 'Identifier' && path.node.key.name === 'onReady') {
+                if (!selectComponentNode) {
+                    return;
+                }
+                path.get('body').unshiftContainer('body', t.assignmentExpression(selectComponentNode.node.operator, selectComponentNode.node.left, selectComponentNode.node.right));
+            }
+            componentLog(path, file);
+        },
     });
     // 转换api接口
     traverse(result, {

@@ -55,7 +55,7 @@ function copyDirectory(fromPath, toPath) {
         arr.push(
             recursiveCopy(
                 path.join(fromPath, lists[i]),
-                path.join(toPath, lists[i].replace(/wxml$/, swanFileSuffix).replace(/wxss$/, cssFileSuffix)),
+                path.join(toPath, lists[i].replace(/wxml$/, swanFileSuffix).replace(/wxss$/, cssFileSuffix).replace(/miniprogram_npm/,'node_modules')),
                 options
             )
         );
