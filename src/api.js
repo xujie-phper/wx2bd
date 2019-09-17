@@ -9,7 +9,6 @@ const logStore = require('./store/log');
 const contextStore = require('./store/context');
 const componentConf = require('../config/wxmp2swan/component');
 const path = require('path');
-// let typeValue = '';     //记录relations中的type类型
 let relationsMap = {};  //记录relations中的map映射关系
 const propertiesString = 'xujie-xXksjUhmbvhaks';    //临时字面量
 const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加属性
@@ -167,7 +166,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
             if (path.node.key.type === 'Identifier' && path.node.key.name === 'onLoad') {
                 path.traverse({
                     AssignmentExpression(assignPath) {
-                        if (assignPath.node.right.type === 'CallExpression' && assignPath.node.right.callee.property.name === 'selectComponent') {
+                        if (assignPath.node.right.type === 'CallExpression' && assignPath.node.right.callee.property && assignPath.node.right.callee.property.name === 'selectComponent') {
                             //记录该节点
                             selectComponentNode = assignPath;
                             console.log(selectComponentNode, 'selectComponentNode---')
@@ -179,23 +178,31 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
         StringLiteral(path) {
             componentLog(path, file);
         },
-        AssignmentExpression(path) {
-            if (path.node.right.type === 'CallExpression' && path.node.right.callee.property.name === 'selectComponent') {
-                let parent = path.findParent(path => {
-                    return path.isObjectMethod() && path.node.key.name === 'onLoad'
-                });
-                if (parent) {
-                    //记录该节点，替换到onReady中
-                    selectComponentNode = path;
-                }
+        ExpressionStatement(expressionPath) {
+            if (expressionPath.node.expression.type !== 'AssignmentExpression') {
+                return;
             }
+            expressionPath.traverse({
+                AssignmentExpression(path) {
+                    if (path.node.right.type === 'CallExpression' && path.node.right.callee.property && path.node.right.callee.property.name === 'selectComponent') {
+                        let parent = path.findParent(path => {
+                            return path.isObjectMethod() && path.node.key.name === 'onLoad'
+                        });
+                        if (parent) {
+                            //记录该节点，替换到onReady中
+                            selectComponentNode = expressionPath;
+                        }
+                    }
+                },
+            })
         },
         ObjectMethod(path) {
             if (path.node.key.type === 'Identifier' && path.node.key.name === 'onReady') {
                 if (!selectComponentNode) {
                     return;
                 }
-                path.get('body').unshiftContainer('body', t.assignmentExpression(selectComponentNode.node.operator, selectComponentNode.node.left, selectComponentNode.node.right));
+                path.get('body').unshiftContainer('body', t.expressionStatement(selectComponentNode.node.expression));
+                //TODO 删除onLoad中的无用代码
             }
             componentLog(path, file);
         },

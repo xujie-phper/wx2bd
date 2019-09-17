@@ -12,6 +12,7 @@ const swanFileSuffix = 'swan';
 const cssFileSuffix = 'css';
 const jsFileSuffix = 'js';
 const configFileSuffix = 'json';
+const wxsFileSuffix = 'filter.js';
 
 
 /**
@@ -55,7 +56,7 @@ function copyDirectory(fromPath, toPath) {
         arr.push(
             recursiveCopy(
                 path.join(fromPath, lists[i]),
-                path.join(toPath, lists[i].replace(/wxml$/, swanFileSuffix).replace(/wxss$/, cssFileSuffix).replace(/miniprogram_npm/,'node_modules')),
+                path.join(toPath, lists[i].replace(/wxml$/, swanFileSuffix).replace(/wxs$/, wxsFileSuffix).replace(/wxss$/, cssFileSuffix).replace(/miniprogram_npm/, 'node_modules')),
                 options
             )
         );
@@ -93,6 +94,8 @@ function renameFileExt(filePath) {
     }
     else if (/wxss/.test(filePath)) {
         return filePath.replace(/wxss$/, cssFileSuffix);
+    } else if (/wxs/.test(filePath)) {
+        return filePath.replace(/wxs$/, wxsFileSuffix);
     }
     else {
         return filePath;
@@ -108,6 +111,7 @@ function renameFileExt(filePath) {
 function isDirectory(entryPath) {
     return !path.extname(entryPath);
 }
+
 exports.isDirectory = isDirectory;
 
 // get content

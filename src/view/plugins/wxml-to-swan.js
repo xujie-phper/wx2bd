@@ -95,7 +95,7 @@ function transformWXS(node, file, options) {
     if (node.name === 'wxs') {
         node.name = 'filter';
         //TODO Filter只能导出function函数,如果有变量，需要自行转换，记录日志
-        let data = node.children[0].data;
+        let data = node.children[0] && node.children[0].data;
         if (typeof data === 'string' && data.indexOf('module.exports') > -1) {
             node.children[0].data = data.replace(/module.exports[\s]+=/, 'export default');
         }

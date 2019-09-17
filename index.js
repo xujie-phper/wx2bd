@@ -7,6 +7,7 @@ const co = require('co');
 const chalk = require('chalk');
 const json = require('./src/config/index');
 const api = require('./src/api');
+const wxs = require('./src/wxs');
 const view = require('./src/view/index');
 const css = require('./src/css');
 const utils = require('./src/util/index');
@@ -33,6 +34,7 @@ module.exports = function wxmp2swan(pathObj, cb) {
         yield utils.copyProject(pathObj.src, pathObj.dist);
         yield json.transformConfig(context);
         yield api.transformApi(context);
+        yield wxs.transformWxs(context);
         yield view.transformView(context);
         yield css.transformCss(context);
         yield utils.createWx2swaninfo(pathObj.dist);
