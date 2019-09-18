@@ -34,7 +34,8 @@ exports.transformWxs = function* transformApi(context) {
     // 遍历文件进行转换
     for (let i = 0; i < files.length; i++) {
         content = yield utils.getContent(files[i]);
-        const code = transformApiContent(content, api, prefix, transformedCtx, files[i]);
+        // const code = transformApiContent(content, api, prefix, transformedCtx, files[i]);
+        const code = content.replace(/module.exports[\s]+=/, 'export default');
         yield utils.saveFile(files[i], code);
     }
     console.log(chalk.cyan('🎉    Successfully wxs'));
@@ -48,6 +49,7 @@ function transformWxsContent(content, api, prefix, transformedCtx, file) {
 
     traverse(result, {
         //TODO 替换WXS逻辑
+
     });
 
     const generateResult = generate(result, {});
