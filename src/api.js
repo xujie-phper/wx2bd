@@ -46,7 +46,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                                 return;
                             }
 
-                            e.value.properties.push(t.objectProperty(t.identifier(SWAN_ID_FOR_SYSTEM), t.objectExpression([t.objectProperty(t.identifier('type'), t.identifier('String')), t.objectProperty(t.identifier('value'), t.stringLiteral('123445'))]), false, false, null))
+                            e.value.properties.push(t.objectProperty(t.identifier(SWAN_ID_FOR_SYSTEM), t.objectExpression([t.objectProperty(t.identifier('type'), t.identifier('String')), t.objectProperty(t.identifier('value'), t.stringLiteral('123445'))]), false, false, null));
                             e.value = t.objectExpression(e.value.properties);
                         }
                     });
@@ -169,11 +169,37 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                         if (assignPath.node.right.type === 'CallExpression' && assignPath.node.right.callee.property && assignPath.node.right.callee.property.name === 'selectComponent') {
                             //记录该节点
                             selectComponentNode = assignPath;
-                            console.log(selectComponentNode, 'selectComponentNode---')
                         }
                     }
                 })
             }
+            //请求中添加cookie字段
+            // if (path.node.type === 'ObjectProperty' && path.node.key.name === 'header') {
+            //     let parent = path.findParent(path => {
+            //         return path.isCallExpression() && path.node.callee.property.name === 'request';
+            //     });
+            //     if (parent) {
+            //         //cookie中添加bduss
+            //         if (path.node.value.type === 'ObjectExpression') {
+            //             // let properties = path.node.value.properties;
+            //             let hasCookie = false;
+            //             path.node.value.properties.forEach((property) => {
+            //                 if (property.key.value === 'Cookie' || property.key.value === 'cookie') {
+            //                     hasCookie = true;
+            //                     property.value = t.stringLiteral('getCookieForSystem()');
+            //                 }
+            //
+            //             });
+            //             !hasCookie && path.node.value.properties.push(t.objectProperty(t.stringLiteral('cookie'), t.stringLiteral('getCookieForSystem()')));
+            //         }
+            //         let pragram = path.findParent(path => {
+            //             return path.isProgram();
+            //         });
+            //         if(pragram){
+            //             pragram.get('body').unshiftContainer('body',  t.expressionStatement(t.stringLiteral('before test')));
+            //         }
+            //     }
+            // }
         },
         StringLiteral(path) {
             componentLog(path, file);

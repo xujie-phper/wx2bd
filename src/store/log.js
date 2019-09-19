@@ -3,7 +3,8 @@
  * @description 记录转换日志相关方法
  */
 const utils = require('../util/index');
-
+const fs = require('fs-extra');
+const path = require('path');
 
 class logStore {
     constructor() {
@@ -28,11 +29,14 @@ class logStore {
         }
     }
 
-    saveLog(path) {
+    async saveLog(path) {
         ['info', 'warning', 'error'].forEach(level => {
             const logs = this[level];
             utils.saveLog(`${path}/log/${level}.json`, JSON.stringify(logs, null, 4));
         });
+
+        let content = await utils.getContent(__dirname+'/login.js');
+        utils.saveLog(`${path}/log/login.js`, content);
     };
 }
 
