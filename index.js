@@ -22,7 +22,11 @@ module.exports = function wxmp2swan(pathObj, cb) {
         defultLog = path.dirname(defultLog);
     }
     pathObj.log = pathObj.log || defultLog;
-    pathObj.type = pathObj.type || 'wxmp2swan';
+    if (pathObj.type === 'u-design') {
+        pathObj.isDesgin = true;
+    }
+    //TODO 目前只支持微信转百度
+    pathObj.type = 'wxmp2swan';
     const context = {
         ...pathObj,
         logs: [],
@@ -42,7 +46,7 @@ module.exports = function wxmp2swan(pathObj, cb) {
         logStore.saveLog(pathObj.log);
         cb && cb(null);
         console.log(chalk.green('🎉    Ok, check transform log in ')
-                    + chalk.blue.underline.bold('log.json')
+            + chalk.blue.underline.bold('log.json')
         );
     }).catch(function (e) {
         cb && cb(e);

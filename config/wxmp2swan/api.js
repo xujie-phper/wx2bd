@@ -102,6 +102,12 @@ module.exports = {
             mapping: 'navigateToSmartProgram',
             message: '方法被替换为navigateToSmartProgram'
         },
+        navigateBackMiniProgram: {
+            action: 'mapping',
+            logLevel: 'info',
+            mapping: 'navigateBackSmartProgram',
+            message: '方法被替换为navigateBackSmartProgram'
+        },
         checkIsSupportSoterAuthentication: defaultDeleteConf,
         startSoterAuthentication: defaultDeleteConf,
         checkIsSoterEnrolledInDevice: defaultDeleteConf,

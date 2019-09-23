@@ -14,11 +14,12 @@ const propertiesString = 'xujie-xXksjUhmbvhaks';    //临时字面量
 const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加属性
 let selectComponentNode = ''; //   保存onLoad中使用的selectComponent方法代码段
 
-exports.transformApiContent = function transformViewContent(content, api, prefix, transformedCtx, file) {
+exports.transformApiContent = function transformViewContent(content, api, prefix, transformedCtx, file, context) {
     const result = parser.parse(content, {
         sourceType: 'module',
         plugins: []
     });
+
     // 处理自定义组件log
     traverse(result, {
         CallExpression(callPath) {
@@ -106,7 +107,9 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                         }
                         if (path.node.key.name === 'type') {
                             // TODO 添加组件库前缀，需要用户自己选择
-                            componentName = 'u-' + componentName;
+                            if (context.isDesgin) {
+                                componentName = 'u-' + componentName;
+                            }
                             let action = path.node.value.value === 'parent' ? 'relationComponentsParent' : 'relationComponentsChild';
                             contextStore.dispatch({
                                 action,
@@ -173,33 +176,6 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                     }
                 })
             }
-            //请求中添加cookie字段
-            // if (path.node.type === 'ObjectProperty' && path.node.key.name === 'header') {
-            //     let parent = path.findParent(path => {
-            //         return path.isCallExpression() && path.node.callee.property.name === 'request';
-            //     });
-            //     if (parent) {
-            //         //cookie中添加bduss
-            //         if (path.node.value.type === 'ObjectExpression') {
-            //             // let properties = path.node.value.properties;
-            //             let hasCookie = false;
-            //             path.node.value.properties.forEach((property) => {
-            //                 if (property.key.value === 'Cookie' || property.key.value === 'cookie') {
-            //                     hasCookie = true;
-            //                     property.value = t.stringLiteral('getCookieForSystem()');
-            //                 }
-            //
-            //             });
-            //             !hasCookie && path.node.value.properties.push(t.objectProperty(t.stringLiteral('cookie'), t.stringLiteral('getCookieForSystem()')));
-            //         }
-            //         let pragram = path.findParent(path => {
-            //             return path.isProgram();
-            //         });
-            //         if(pragram){
-            //             pragram.get('body').unshiftContainer('body',  t.expressionStatement(t.stringLiteral('before test')));
-            //         }
-            //     }
-            // }
         },
         StringLiteral(path) {
             componentLog(path, file);
@@ -282,7 +258,7 @@ exports.transformApi = function* transformApi(context) {
     // 遍历文件进行转换
     for (let i = 0; i < files.length; i++) {
         content = yield utils.getContent(files[i]);
-        const code = exports.transformApiContent(content, api, prefix, transformedCtx, files[i]);
+        const code = exports.transformApiContent(content, api, prefix, transformedCtx, files[i], context);
         yield utils.saveFile(files[i], code);
     }
     console.log(chalk.cyan('🎉    Successfully js'));

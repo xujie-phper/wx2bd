@@ -58,7 +58,7 @@ checkVersion()
                 const toPath = argv._[1] ? path.resolve(argv._[1]) : null;
                 const logPath = argv._[2] ? path.resolve(argv._[2]) : null;
 
-                wxmp2swan({type:'wxmp2swan', src: fromPath, dist: toPath, log: logPath}, function (err, logs) {
+                wxmp2swan({type, src: fromPath, dist: toPath, log: logPath}, function (err, logs) {
                     if (err) {
                         console.log('err: ', err);
                     }

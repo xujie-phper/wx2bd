@@ -1,7 +1,7 @@
 [
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/notice-bar/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/components/notice-bar/index.js",
         "row": 57,
         "column": 6,
         "before": "wx",
@@ -10,7 +10,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/notice-bar/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/components/notice-bar/index.js",
         "row": 58,
         "column": 8,
         "before": "wx",
@@ -19,7 +19,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/notice-bar/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/components/notice-bar/index.js",
         "row": 60,
         "column": 28,
         "before": "wx",
@@ -28,7 +28,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/components/tabs/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/components/tabs/index.js",
         "row": 46,
         "column": 12,
         "before": "wx",
@@ -37,7 +37,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/detail.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/detail.js",
         "row": 1,
         "column": 0,
         "before": "wx",
@@ -46,7 +46,7 @@
     },
     {
         "type": "Component behaviors",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 44,
         "column": 16,
         "before": "'wx://form-field'",
@@ -55,7 +55,7 @@
     },
     {
         "type": "Component behaviors",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 44,
         "column": 35,
         "before": "'wx://component-export'",
@@ -64,7 +64,7 @@
     },
     {
         "type": "transform context && method",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 41,
         "column": 0,
         "before": "wx.navigateToMiniProgram",
@@ -73,7 +73,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 1,
         "column": 0,
         "before": "wx",
@@ -82,7 +82,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 10,
         "column": 14,
         "before": "wx",
@@ -91,7 +91,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 11,
         "column": 15,
         "before": "wx",
@@ -100,7 +100,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 21,
         "column": 6,
         "before": "wx",
@@ -109,7 +109,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 22,
         "column": 18,
         "before": "wx",
@@ -118,7 +118,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 23,
         "column": 29,
         "before": "wx",
@@ -127,7 +127,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 25,
         "column": 7,
         "before": "wx",
@@ -136,7 +136,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 26,
         "column": 29,
         "before": "wx",
@@ -145,7 +145,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 29,
         "column": 0,
         "before": "wx",
@@ -154,7 +154,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 30,
         "column": 0,
         "before": "wx",
@@ -163,7 +163,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 31,
         "column": 0,
         "before": "wx",
@@ -172,7 +172,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 33,
         "column": 11,
         "before": "wx",
@@ -181,7 +181,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 34,
         "column": 7,
         "before": "wx",
@@ -190,7 +190,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 36,
         "column": 7,
         "before": "wx",
@@ -199,7 +199,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 38,
         "column": 0,
         "before": "wx",
@@ -208,7 +208,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 38,
         "column": 16,
         "before": "wx",
@@ -217,7 +217,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 39,
         "column": 0,
         "before": "wx",
@@ -226,7 +226,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 39,
         "column": 8,
         "before": "wx",
@@ -235,7 +235,7 @@
     },
     {
         "type": "transform function call arg name",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-com/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
         "row": 39,
         "column": 19,
         "before": "wx",
