@@ -12,7 +12,7 @@ const path = require('path');
 let relationsMap = {};  //记录relations中的map映射关系
 const propertiesString = 'xujie-xXksjUhmbvhaks';    //临时字面量
 const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加属性
-let selectComponentNode = ''; //   保存onLoad中使用的selectComponent方法代码段
+let selectComponentNode = {}; //   保存onLoad中使用的selectComponent方法代码段
 
 exports.transformApiContent = function transformViewContent(content, api, prefix, transformedCtx, file, context) {
     const result = parser.parse(content, {
@@ -28,10 +28,6 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
             }
             callPath.traverse({
                 ObjectExpression(path) {
-                    // if (!file.includes('grid')) {
-                    //     return;
-                    // }
-
                     if (!(path.parentPath.node.type === 'CallExpression' && path.parentPath.node.callee.name === 'Component')) {
                         return;
                     }
@@ -85,97 +81,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
         },
         ObjectProperty(path) {
             componentLog(path, file);
-            let linkedBody = '';
-            if (path.node.type === 'ObjectProperty' && path.node.key.name === 'relations') {
-                //获取到relations属性中type的value
-                //获取到relations属性中linked函数
-                let componentName = '';
-                let relationsValue = '';
-                path.traverse({
-                    ObjectMethod(path) {
-                        if (path.node.key.name === 'linked') {
-                            linkedBody = path.node.body;
-                        }
-                    },
-                    ObjectProperty(path) {
-                        if (path.node.key.type === 'StringLiteral' && path.node.key.value) {
-                            //依赖好像有点强
-                            relationsValue = path.node.key.value || '';
-                            let index = relationsValue.lastIndexOf('./');
-                            let lastIndex = relationsValue.lastIndexOf('/');
-                            componentName = relationsValue.substring(index + 2, lastIndex);
-                        }
-                        if (path.node.key.name === 'type') {
-                            // TODO 添加组件库前缀，需要用户自己选择
-                            if (context.isDesgin) {
-                                componentName = 'u-' + componentName;
-                            }
-                            let action = path.node.value.value === 'parent' ? 'relationComponentsParent' : 'relationComponentsChild';
-                            contextStore.dispatch({
-                                action,
-                                payload: componentName
-                            });
-                            relationsMap[relationsValue] = path.node.value.value;
-                        }
-                    }
-                });
-                if (!linkedBody) {
-                    path.remove();
-                    return;
-                } else {
-                    path.replaceWith(t.objectMethod('method', t.identifier('attached'), [], linkedBody, false));
-                }
-            }
-            let selectMethod = '';
-            if (path.node.type === 'ObjectProperty' && path.node.key.name === 'methods') {
-                //去掉getRelationNodes调用的参数
-                path.traverse({
-                    MemberExpression(memberPath) {
-                        if (memberPath.node.property.type === "NumericLiteral" && memberPath.node.property.value >= 0) {
-                            let node = memberPath.node;
-                            if (node.object.type === 'CallExpression' &&
-                                node.object.callee.type === 'MemberExpression' && node.object.callee.property.name === 'getRelationNodes') {
-                                memberPath.replaceWith(t.callExpression(memberPath.node.object.callee, memberPath.node.object.arguments));
-                            }
-                        }
-                    }
-                });
-                //替换getRelationNodes逻辑
-                path.traverse({
-                    CallExpression(callPath) {
-                        if (callPath.node.arguments[0] && callPath.node.arguments[0].type === "StringLiteral") {
-                            callPath.traverse({
-                                MemberExpression(path) {
-                                    if (path.node.property.name === "getRelationNodes") {
-                                        let relationsValue = callPath.node.arguments[0].value || '';
-                                        if (relationsMap[relationsValue] === 'parent') {
-                                            selectMethod = `selectComponent('#'+this.data.${SWAN_ID_FOR_SYSTEM})`;
-                                        }
-                                        if (relationsMap[relationsValue] === 'child') {
-                                            selectMethod = `selectAllComponents('.'+this.data.${SWAN_ID_FOR_SYSTEM})`;
-                                        }
-
-                                        let relationReplaceCode = `getCurrentPages()[getCurrentPages().length - 1].${selectMethod}`;
-                                        path.parentPath.replaceWithSourceString(relationReplaceCode);
-                                    }
-                                }
-                            });
-                        }
-                    },
-                });
-            }
-            //处理onLoad调用this.selectComponent()方法
-            let selectComponentNode = '';
-            if (path.node.key.type === 'Identifier' && path.node.key.name === 'onLoad') {
-                path.traverse({
-                    AssignmentExpression(assignPath) {
-                        if (assignPath.node.right.type === 'CallExpression' && assignPath.node.right.callee.property && assignPath.node.right.callee.property.name === 'selectComponent') {
-                            //记录该节点
-                            selectComponentNode = assignPath;
-                        }
-                    }
-                })
-            }
+            handleComponentRelations(path, context);
         },
         StringLiteral(path) {
             componentLog(path, file);
@@ -192,7 +98,10 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                         });
                         if (parent) {
                             //记录该节点，替换到onReady中
-                            selectComponentNode = expressionPath;
+                            if (!selectComponentNode[file]) {
+                                selectComponentNode[file] = [];
+                            }
+                            selectComponentNode[file].push(expressionPath);
                         }
                     }
                 },
@@ -200,14 +109,16 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
         },
         ObjectMethod(path) {
             if (path.node.key.type === 'Identifier' && path.node.key.name === 'onReady') {
-                if (!selectComponentNode) {
+                if (!selectComponentNode[file] || selectComponentNode[file].length === 0) {
                     return;
                 }
-                path.get('body').unshiftContainer('body', t.expressionStatement(selectComponentNode.node.expression));
+                selectComponentNode[file].forEach(selectedNode => {
+                    path.get('body').unshiftContainer('body', t.expressionStatement(selectedNode.node.expression));
+                });
                 //TODO 删除onLoad中的无用代码
             }
             componentLog(path, file);
-        },
+        }
     });
     // 转换api接口
     traverse(result, {
@@ -216,9 +127,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
             handleApiConfigTransform({ctx, path, api, prefix, transformedCtx, file});
         },
         Identifier(path) {
-            if (path.node.name === 'relations') {
-                //...
-            }
+
         }
     });
 
@@ -289,6 +198,92 @@ function transformWx(path, file, prefix, transformedCtx) {
                 after: transformedCtx[prefix],
                 message: '只转换了上下文, wx ==> swan'
             }
+        });
+    }
+}
+
+/**
+ * 处理自定义组件中的relations
+ *
+ * @param {Object} node traverse节点
+ */
+function handleComponentRelations(path, context) {
+    let linkedBody = '';
+    if (path.node.type === 'ObjectProperty' && path.node.key.name === 'relations') {
+        //获取到relations属性中type的value
+        //获取到relations属性中linked函数
+        let componentName = '';
+        let relationsValue = '';
+        path.traverse({
+            ObjectMethod(path) {
+                if (path.node.key.name === 'linked') {
+                    linkedBody = path.node.body;
+                }
+            },
+            ObjectProperty(path) {
+                if (path.node.key.type === 'StringLiteral' && path.node.key.value) {
+                    relationsValue = path.node.key.value || '';
+                    let index = relationsValue.lastIndexOf('./');
+                    let lastIndex = relationsValue.lastIndexOf('/');
+                    componentName = relationsValue.substring(index + 2, lastIndex);
+                }
+                if (path.node.key.name === 'type') {
+                    if (context.isDesgin) {
+                        //添加组件库前缀
+                        componentName = 'u-' + componentName;
+                    }
+                    let action = path.node.value.value === 'parent' ? 'relationComponentsParent' : 'relationComponentsChild';
+                    contextStore.dispatch({
+                        action,
+                        payload: componentName
+                    });
+                    relationsMap[relationsValue] = path.node.value.value;
+                }
+            }
+        });
+        if (!linkedBody) {
+            path.remove();
+            return;
+        } else {
+            path.replaceWith(t.objectMethod('method', t.identifier('attached'), [], linkedBody, false));
+        }
+    }
+    let selectMethod = '';
+    if (path.node.type === 'ObjectProperty' && path.node.key.name === 'methods') {
+        //去掉getRelationNodes调用的参数
+        path.traverse({
+            MemberExpression(memberPath) {
+                if (memberPath.node.property.type === "NumericLiteral" && memberPath.node.property.value >= 0) {
+                    let node = memberPath.node;
+                    if (node.object.type === 'CallExpression' &&
+                        node.object.callee.type === 'MemberExpression' && node.object.callee.property.name === 'getRelationNodes') {
+                        memberPath.replaceWith(t.callExpression(memberPath.node.object.callee, memberPath.node.object.arguments));
+                    }
+                }
+            }
+        });
+        //替换getRelationNodes逻辑
+        path.traverse({
+            CallExpression(callPath) {
+                if (callPath.node.arguments[0] && callPath.node.arguments[0].type === "StringLiteral") {
+                    callPath.traverse({
+                        MemberExpression(path) {
+                            if (path.node.property.name === "getRelationNodes") {
+                                let relationsValue = callPath.node.arguments[0].value || '';
+                                if (relationsMap[relationsValue] === 'parent') {
+                                    selectMethod = `selectComponent('#'+this.data.${SWAN_ID_FOR_SYSTEM})`;
+                                }
+                                if (relationsMap[relationsValue] === 'child') {
+                                    selectMethod = `selectAllComponents('.'+this.data.${SWAN_ID_FOR_SYSTEM})`;
+                                }
+
+                                let relationReplaceCode = `getCurrentPages()[getCurrentPages().length - 1].${selectMethod}`;
+                                path.parentPath.replaceWithSourceString(relationReplaceCode);
+                            }
+                        }
+                    });
+                }
+            },
         });
     }
 }
