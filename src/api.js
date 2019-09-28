@@ -205,7 +205,8 @@ function transformWx(path, file, prefix, transformedCtx) {
 /**
  * 处理自定义组件中的relations
  *
- * @param {Object} node traverse节点
+ * @param {Object} path 遍历的节点信息
+ * @param {Object} context 脚本执行上下文
  */
 function handleComponentRelations(path, context) {
     let linkedBody = '';
