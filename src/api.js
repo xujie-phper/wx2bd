@@ -3,6 +3,7 @@ const parser = require("@babel/parser");
 const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
 const utils = require('./util/index');
+const getRelativePath = require('./util/getRelativePath');
 const chalk = require('chalk');
 const t = require('babel-types');
 const logStore = require('./store/log');
@@ -12,9 +13,10 @@ const path = require('path');
 let relationsMap = {};  //记录relations中的map映射关系
 const propertiesString = 'xujie-xXksjUhmbvhaks';    //临时字面量
 const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加属性
+const GET_BDUSS_STOKEN = 'getCookieForSystem';    //  系统提供的获取鉴权的API
 let selectComponentNode = {}; //   保存onLoad中使用的selectComponent方法代码段
 
-exports.transformApiContent = function transformViewContent(content, api, prefix, transformedCtx, file, context) {
+exports.transformApiContent = function transformViewContent(content, api, prefix, transformedCtx, file, context, logPath) {
     const result = parser.parse(content, {
         sourceType: 'module',
         plugins: []
@@ -23,6 +25,34 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
     // 处理自定义组件log
     traverse(result, {
         CallExpression(callPath) {
+            //智能化处理登录流程
+            if (!callPath.node.callee) {
+                return;
+            }
+            if (callPath.node.callee.type === 'MemberExpression' && callPath.node.callee.object.name === 'wx' && callPath.node.callee.property.name === 'request') {
+                let getCookieBody = callPath.findParent(path => {
+                    let calleeBody = path.node.type === 'CallExpression' && path.node.callee.type === 'MemberExpression' && path.node.callee;
+                    return calleeBody && calleeBody.object.type === 'CallExpression' && calleeBody.object.callee.type === 'Identifier' && calleeBody.object.callee.name === GET_BDUSS_STOKEN;
+                });
+                if (getCookieBody) {
+                    return;
+                }
+                let programBody = callPath.findParent(path => {
+                    return t.isProgram(path);
+                });
+
+                if (programBody) {
+                    let ImportSpecifier = t.ImportSpecifier(t.Identifier(GET_BDUSS_STOKEN), t.Identifier(GET_BDUSS_STOKEN));
+                    let relativePath = getRelativePath(file, logPath + '/log/login.js');
+                    let source = t.StringLiteral(relativePath);
+                    programBody.node.body.unshift(t.ImportDeclaration([ImportSpecifier], source));
+                }
+
+                let cookieBody = t.CallExpression(t.Identifier(GET_BDUSS_STOKEN), []);
+                let requestBody = t.CallExpression(callPath.node.callee, callPath.node.arguments);
+                callPath.parentPath.replaceWith(t.CallExpression(t.MemberExpression(cookieBody, t.Identifier('then')), [requestBody]));
+            }
+
             if (!(callPath.node.callee.name === 'Component')) {
                 return;
             }
@@ -142,7 +172,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
     return generateResult.code;
 };
 
-exports.transformApi = function* transformApi(context) {
+exports.transformApi = function* transformApi(context, logPath) {
     // 过滤js文件
     const files = yield new Promise(resolve => {
         let filePath = context.dist;
@@ -167,7 +197,7 @@ exports.transformApi = function* transformApi(context) {
     // 遍历文件进行转换
     for (let i = 0; i < files.length; i++) {
         content = yield utils.getContent(files[i]);
-        const code = exports.transformApiContent(content, api, prefix, transformedCtx, files[i], context);
+        const code = exports.transformApiContent(content, api, prefix, transformedCtx, files[i], context, logPath);
         yield utils.saveFile(files[i], code);
     }
     console.log(chalk.cyan('🎉    Successfully js'));

@@ -37,7 +37,7 @@ module.exports = function wxmp2swan(pathObj, cb) {
     co(function* () {
         yield utils.copyProject(pathObj.src, pathObj.dist);
         yield json.transformConfig(context);
-        yield api.transformApi(context);
+        yield api.transformApi(context,pathObj.log);
         yield wxs.transformWxs(context);
         yield view.transformView(context);
         yield css.transformCss(context);
