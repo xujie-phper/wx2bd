@@ -179,8 +179,7 @@ function transformComponent(node, file, options) {
     if (relationComponentsChild.includes(node.name)) {
         addNodeAttrib[SWAN_ID_FOR_SYSTEM] = componentUniqueFlag + '';
         addNodeAttrib.class = attribs.class ? attribs.class + ' ' + componentUniqueFlag : componentUniqueFlag;
-    }
-    if (relationComponentsParent.includes(node.name)) {
+    } else if (relationComponentsParent.includes(node.name)) {
         if (attribs.id) {
             //TODO 替换了原有的标签ID，输出一条warning日志
         }

@@ -10,6 +10,7 @@ const logStore = require('./store/log');
 const contextStore = require('./store/context');
 const componentConf = require('../config/wxmp2swan/component');
 const path = require('path');
+
 let relationsMap = {};  //记录relations中的map映射关系
 const propertiesString = 'xujie-xXksjUhmbvhaks';    //临时字面量
 const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加属性
@@ -93,7 +94,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                         },
                         VariableDeclarator(varPath) {
                             //TODO 变量名不为width呢
-                            if (varPath.node.id.name === 'width') {
+                            if (context.isDesgin && varPath.node.id.name === 'width') {
                                 let code = `width = 100 / this.data.length`;
                                 varPath.replaceWithSourceString(code);
                             }
@@ -263,6 +264,7 @@ function handleComponentRelations(path, context) {
                         //添加组件库前缀
                         componentName = 'u-' + componentName;
                     }
+                    //TODO 同为父子依赖时，待完善
                     let action = path.node.value.value === 'parent' ? 'relationComponentsParent' : 'relationComponentsChild';
                     contextStore.dispatch({
                         action,
