@@ -31,6 +31,7 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                 return;
             }
             if (callPath.node.callee.type === 'MemberExpression' && callPath.node.callee.object.name === 'wx' && callPath.node.callee.property.name === 'request') {
+                const sourceCode = generate(callPath.node).code;
                 let getCookieBody = callPath.findParent(path => {
                     let calleeBody = path.node.type === 'CallExpression' && path.node.callee.type === 'MemberExpression' && path.node.callee;
                     return calleeBody && calleeBody.object.type === 'CallExpression' && calleeBody.object.callee.type === 'Identifier' && calleeBody.object.callee.name === GET_BDUSS_STOKEN;
@@ -52,6 +53,20 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                 let cookieBody = t.CallExpression(t.Identifier(GET_BDUSS_STOKEN), []);
                 let requestBody = t.CallExpression(callPath.node.callee, callPath.node.arguments);
                 callPath.parentPath.replaceWith(t.CallExpression(t.MemberExpression(cookieBody, t.Identifier('then')), [requestBody]));
+
+                const afterCode = generate(callPath.node).code;
+                logStore.dispatch({
+                    action: 'warning',
+                    payload: {
+                        type: '用户鉴权BDUSS',
+                        file: file,
+                        row: callPath.node.loc.start.line,
+                        column: callPath.node.loc.start.column,
+                        before: sourceCode,
+                        after: afterCode,
+                        message: `获取bduss的逻辑已被自动注入，请移除项目中的所有passport依赖包`
+                    }
+                })
             }
 
             if (!(callPath.node.callee.name === 'Component')) {
@@ -156,9 +171,6 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
         MemberExpression(path) {
             const ctx = path.node.object.name;
             handleApiConfigTransform({ctx, path, api, prefix, transformedCtx, file});
-        },
-        Identifier(path) {
-
         }
     });
 
@@ -218,18 +230,18 @@ function transformWx(path, file, prefix, transformedCtx) {
         const node = path.node;
         path.replaceWithSourceString(transformedCtx[prefix]);
 
-        logStore.dispatch({
-            action: 'info',
-            payload: {
-                type: 'transform function call arg name',
-                file: file,
-                row: node.loc.start.line,
-                column: node.loc.start.column,
-                before: prefix,
-                after: transformedCtx[prefix],
-                message: '只转换了上下文, wx ==> swan'
-            }
-        });
+        // logStore.dispatch({
+        //     action: 'info',
+        //     payload: {
+        //         type: 'transform function call arg name',
+        //         file: file,
+        //         row: node.loc.start.line,
+        //         column: node.loc.start.column,
+        //         before: prefix,
+        //         after: transformedCtx[prefix],
+        //         message: '只转换了上下文, wx ==> swan'
+        //     }
+        // });
     }
 }
 

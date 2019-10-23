@@ -27,7 +27,7 @@ Component({
   methods: {
     setGridItemWidth() {
       const nodes = getCurrentPages()[getCurrentPages().length - 1].selectAllComponents('.' + this.data.swanIdForSystem);
-      const width = 100 / this.data.length;
+      const width = 100 / nodes.length;
       nodes.forEach(item => {
         item.setData({
           'width': width + '%'

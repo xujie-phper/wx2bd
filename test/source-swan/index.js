@@ -1,3 +1,4 @@
+import { getCookieForSystem } from "log/login.js";
 swan.navigateTo({
   url: '../logs/logs'
 }); // test api exist check in logical expression
@@ -28,6 +29,21 @@ while (swan) {
   console.log(`wx${key}:`, swan[key]);
 }
 
+swan.login({
+  success(res) {
+    if (res.code) {
+      //发起网络请求
+      getCookieForSystem().then(swan.request({
+        url: 'https://test.com/onLogin',
+        data: {
+          code: res.code
+        }
+      }));
+    } else {
+      console.log('登录失败！' + res.errMsg);
+    }
+  }
+});
 swan.aaa = 111;
 swan['bbb'] = 222;
 swan[ccc] = 333;

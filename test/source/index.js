@@ -26,6 +26,22 @@ while (wx) {
     console.log(`wx${key}:`, wx[key]);
 }
 
+wx.login({
+    success (res) {
+        if (res.code) {
+            //发起网络请求
+            wx.request({
+                url: 'https://test.com/onLogin',
+                data: {
+                    code: res.code
+                }
+            })
+        } else {
+            console.log('登录失败！' + res.errMsg)
+        }
+    }
+})
+
 wx.aaa = 111;
 wx['bbb'] = 222;
 wx[ccc] = 333;

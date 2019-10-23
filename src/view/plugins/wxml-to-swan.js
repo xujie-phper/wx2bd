@@ -236,6 +236,12 @@ function transformDirective(node, file, options) {
                 if (key === 'wx:for' || key === 'wx:for-items') {
                     const item = attribs['wx:for-item'] || 'item';
                     const index = attribs['wx:for-index'] || 'index';
+                    if (typeof value === "number") {
+                        newValue = [];
+                        for (let i = 0; i < value; i++) {
+                            newValue.push(i + 1);
+                        }
+                    }
                     newValue = `${item}, ${index} in ${newValue}`;
                 }
 

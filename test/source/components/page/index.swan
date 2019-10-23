@@ -1,0 +1,14 @@
+<view class="u-class u-page">
+    <view class="u-page-prev" s-if=" mode === 'button' ">
+        <u-button u-class="u-page-button" type="ghost" bindclick="handlePrev" disabled="{{ current === 1 }}"><slot name="prev"></slot></u-button>
+    </view>
+    <view class="u-page-number" s-if=" mode !== 'pointer' && !simple ">
+        <view class="u-page-number-current">{{ current }}</view>/{{total}}
+    </view>
+    <view class="u-page-pointer" s-if=" mode === 'pointer' ">
+        <view class="u-page-pointer-dot {{ (index + 1) === current ? 'current' : '' }}" s-for="item, index in  [1,2,3,4,5] " s-key="index"></view>
+    </view>
+    <view class="u-page-next" s-if=" mode === 'button' ">
+        <u-button u-class="u-page-button" type="ghost" bindclick="handleNext" disabled="{{ current === total }}"><slot name="next"></slot></u-button>
+    </view>
+</view>

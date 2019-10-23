@@ -1,12 +1,12 @@
 [
     {
         "type": "Compsonent json",
-        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.json",
+        "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.json",
         "message": "自定义组件---json[componentGenerics]: 不支持的属性"
     },
     {
         "type": "replace with binary expression",
-        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
         "row": 5,
         "column": 4,
         "before": "wx.checkIsSupportSoterAuthentication",
@@ -15,7 +15,7 @@
     },
     {
         "type": "transform context",
-        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
         "row": 14,
         "column": 5,
         "before": "wx.checkIsSupportSoterAuthentication",
@@ -24,7 +24,7 @@
     },
     {
         "type": "transform context",
-        "file": "/Users/xujie07/demos/wx2bd/test/source_swan/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
         "row": 17,
         "column": 11,
         "before": "wx.checkIsSupportSoterAuthentication",

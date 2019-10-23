@@ -31,7 +31,7 @@ let sToken = new Promise((resolve, reject) => {
     });
 });
 
-function getCookie() {
+function getCookieForSystem() {
     return new Promise((resolve, reject) => {
         if (getApp().globalData.bduss && getApp().globalData.sToken) {
             resolve(`BDUSS=${getApp().globalData.bduss};STOKEN=${getApp().globalData.sToken};`);
@@ -47,5 +47,5 @@ function getCookie() {
 }
 
 module.exports = {
-    getCookie: getCookie
+    getCookieForSystem: getCookieForSystem
 };

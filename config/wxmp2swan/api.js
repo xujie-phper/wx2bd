@@ -119,7 +119,7 @@ module.exports = {
         },
         login: {
             ...defaultConf,
-            message: '登录接口code换取openid和session_key 在百度小程序中存在diff \n      相关文档：https://smartapp.baidu.com/docs/develop/api/open_log/#Session-Key/'
+            message: '微信登录接口code换取openid和session_key 在百度小程序中为code换取access_token \n      相关文档：https://smartapp.baidu.com/docs/develop/api/open_log/#Session-Key/'
         }
     }
 };
