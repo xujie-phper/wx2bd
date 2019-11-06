@@ -115,7 +115,7 @@ module.exports = {
         requestPayment: {
             action: 'tip',
             logLevel: 'error',
-            message: '存在diff的函数，百度小程序中需使用requestPolymerPayment替代 \n      相关文档：https://github.com/yican008/wx2swan/blob/master/docs/Payment.md'
+            message: '存在diff的函数，百度小程序中需使用requestPolymerPayment替代 \n      相关文档：https://smartprogram.baidu.com/docs/develop/api/open_payment/'
         },
         login: {
             ...defaultConf,

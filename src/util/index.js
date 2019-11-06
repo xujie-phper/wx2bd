@@ -14,20 +14,34 @@ const jsFileSuffix = 'js';
 const configFileSuffix = 'json';
 const wxsFileSuffix = 'filter.js';
 
+const suffixMap = {
+    'wx2bd': {
+        'wxml': 'swan',
+        'wxss': 'css',
+        'filter.js': 'wxs'
+    },
+    'bd2wx': {
+        'swan': 'wxml',
+        'css': 'wxss',
+        'wxs': 'filter.js'
+    }
+};
+
 
 /**
  * 拷贝项目
  *
  * @param {string} fromPath 目标目录路径
  * @param {string} toPath 生成目录路径
+ * @param type
  * @return {Promise}
  */
-exports.copyProject = function (fromPath, toPath) {
+exports.copyProject = async function (fromPath, toPath, type) {
     // 支持转换入口为单一文件
     if (isDirectory(fromPath)) {
-        return copyDirectory(fromPath, toPath);
+        return copyDirectory(fromPath, toPath, type);
     } else {
-        return copyFile(fromPath, toPath);
+        return copyFile(fromPath, toPath, type);
     }
 };
 
@@ -37,9 +51,10 @@ exports.copyProject = function (fromPath, toPath) {
  *
  * @param {string} fromPath 目标目录路径
  * @param {string} toPath 生成目录路径
+ * @param type
  * @return {Promise}
  */
-function copyDirectory(fromPath, toPath) {
+function copyDirectory(fromPath, toPath, type) {
     const lists = fs.readdirSync(fromPath).filter(function (item) {
         return !/(node_modules|DS_store)/i.test(item);
     });
@@ -48,15 +63,24 @@ function copyDirectory(fromPath, toPath) {
         expand: true,
         dot: true,
         rename(filePath) {
-            return renameFileExt(filePath);
+            return renameFileExt(filePath, type);
         }
     };
     const arr = [];
     for (let i = 0; i < lists.length; i++) {
+        let listMap = lists[i];
+        Object.keys(suffixMap[type]).find(ele => {
+            let regRex = new RegExp(ele);
+            if(listMap !== lists[i].replace(regRex, suffixMap[type][ele])){
+                listMap = lists[i].replace(regRex, suffixMap[type][ele]);
+                return true;
+            }
+        });
         arr.push(
             recursiveCopy(
                 path.join(fromPath, lists[i]),
-                path.join(toPath, lists[i].replace(/wxml$/, swanFileSuffix).replace(/wxs$/, wxsFileSuffix).replace(/wxss$/, cssFileSuffix).replace(/miniprogram_npm/, 'node_modules')),
+                // path.join(toPath, lists[i].replace(/wxml$/, swanFileSuffix).replace(/wxs$/, wxsFileSuffix).replace(/wxss$/, cssFileSuffix).replace(/miniprogram_npm/, 'node_modules')),
+                path.join(toPath, listMap),
                 options
             )
         );
@@ -71,12 +95,12 @@ function copyDirectory(fromPath, toPath) {
  * @param {string} toPath 生成文件路径
  * @return {Promise}
  */
-function copyFile(fromPath, toPath) {
+function copyFile(fromPath, toPath, type) {
     // 拷贝文件时toPath支持文件与目录两种形式
     let fromfileName = path.basename(fromPath);
     if (isDirectory(toPath)) {
         // toPath为目录时补上文件名为fromPath中处理扩展名后的文件名
-        fromfileName = renameFileExt(fromfileName);
+        fromfileName = renameFileExt(fromfileName, type);
         toPath = path.join(toPath, fromfileName);
     }
     return fs.copy(fromPath, toPath);
@@ -86,20 +110,33 @@ function copyFile(fromPath, toPath) {
  * 重命名文件扩展名
  *
  * @param {string} filePath 文件路径
+ * @param type
  * @return {string} 处理后路径
  */
-function renameFileExt(filePath) {
-    if (/wxml/.test(filePath)) {
-        return filePath.replace(/wxml$/, swanFileSuffix);
-    }
-    else if (/wxss/.test(filePath)) {
-        return filePath.replace(/wxss$/, cssFileSuffix);
-    } else if (/wxs/.test(filePath)) {
-        return filePath.replace(/wxs$/, wxsFileSuffix);
-    }
-    else {
-        return filePath;
-    }
+function renameFileExt(filePath, type) {
+    Object.keys(suffixMap[type]).find(ele => {
+        let regRex = new RegExp(ele);
+        if (regRex.test(filePath)) {
+            filePath.replace(regRex, suffixMap[type][ele]);
+            return true;
+        } else {
+           return false;
+        }
+    });
+
+    return filePath;
+
+    // if (/wxml/.test(filePath)) {
+    //     return filePath.replace(/wxml$/, swanFileSuffix);
+    // }
+    // else if (/wxss/.test(filePath)) {
+    //     return filePath.replace(/wxss$/, cssFileSuffix);
+    // } else if (/wxs/.test(filePath)) {
+    //     return filePath.replace(/wxs$/, wxsFileSuffix);
+    // }
+    // else {
+    //     return filePath;
+    // }
 }
 
 /**
@@ -240,7 +277,7 @@ exports.transformCssStaticUrl = function transformCssStaticUrl(content) {
  * @param {string} toPath 生成文件路径
  * @return {Promise}
  */
-exports.createWx2swaninfo = function (toPath) {
+exports.createWx2swaninfo = async function (toPath) {
     let dirPath = toPath;
     if (!isDirectory(toPath)) {
         dirPath = path.dirname(toPath);

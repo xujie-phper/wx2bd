@@ -1,4 +1,4 @@
-/* components/tab/index.css */
+/* components/tab/index.wxss */
 
 .u-tabs-tab{
     flex: 1;

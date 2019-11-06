@@ -13,7 +13,7 @@ const css = require('./src/css');
 const utils = require('./src/util/index');
 const logStore = require('./src/store/log');
 
-module.exports = function wxmp2swan(pathObj, cb) {
+module.exports = async function wxmp2swan(pathObj, cb) {
     // 指定转换目录
     pathObj.dist = pathObj.dist || getDefaultDist(pathObj.src);
     let defultLog = pathObj.dist || pathObj.src;
@@ -26,32 +26,32 @@ module.exports = function wxmp2swan(pathObj, cb) {
         pathObj.isDesgin = true;
     }
     //TODO 目前只支持微信转百度
-    pathObj.type = 'wxmp2swan';
     const context = {
         ...pathObj,
         logs: [],
         // 可以放一些全局共享的数据
         data: {}
     };
-    console.log(chalk.green('🎉    Transforming  ...'));
-    co(function* () {
-        yield utils.copyProject(pathObj.src, pathObj.dist);
-        yield json.transformConfig(context);
-        yield api.transformApi(context,pathObj.log);
-        yield wxs.transformWxs(context);
-        yield view.transformView(context);
-        yield css.transformCss(context);
-        yield utils.createWx2swaninfo(pathObj.dist);
-    }).then(function () {
+
+    try{
+        console.log(chalk.green('🎉    Transforming  ...'));
+        await utils.copyProject(pathObj.src, pathObj.dist, pathObj.type);
+        await json.transformConfig(context);
+        await api.transformApi(context,pathObj.log);
+        await wxs.transformWxs(context);
+        await view.transformView(context);
+        await css.transformCss(context);
+        await utils.createWx2swaninfo(pathObj.dist);
+
         logStore.saveLog(pathObj.log);
         cb && cb(null);
         console.log(chalk.green('🎉    Ok, check transform log in ')
             + chalk.blue.underline.bold('log.json')
         );
-    }).catch(function (e) {
+    }catch(e){
         cb && cb(e);
         console.log(chalk.red('🚀    run error: ', e));
-    });
+    }
 };
 
 function getDefaultDist(dist) {

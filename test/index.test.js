@@ -7,7 +7,7 @@ const view = require('../src/view/index');
 const api = require('../src/api');
 const css = require('../src/css');
 const utils = require('../src/util/index');
-const apiConfig = require('../config/wxmp2swan/api');
+const apiConfig = require('../config/wx2bd/api');
 
 global.console = {
     log: jest.fn()

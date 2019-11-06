@@ -10,7 +10,7 @@ const chalk = require('chalk');
 const detectIntent = require('detect-indent');
 
 const utils = require('../util/index');
-const componentConf = require('../../config/wxmp2swan/component');
+const componentConf = require('../../config/wx2bd/component');
 const logStore = require('../store/log');
 const path = require('path');
 let contextStore = require('../store/context.js');
@@ -72,8 +72,8 @@ module.exports.transform = function (path, contents) {
  *
  * @param {Object} context 转换上下文
  */
-module.exports.transformConfig = function* transformConfig(context) {
-    const files = yield new Promise(resolve => {
+module.exports.transformConfig = async function transformConfig(context) {
+    const files = await new Promise(resolve => {
         let filePath = context.dist;
         // 添加支持单一文件入口逻辑
         if (utils.isDirectory(filePath)) {
@@ -90,9 +90,9 @@ module.exports.transformConfig = function* transformConfig(context) {
     });
 
     for (let i = 0; i < files.length; i++) {
-        const content = yield utils.getContent(files[i]);
-        const result = yield exports.transform(files[i], content);
-        yield utils.saveFile(files[i], String(result));
+        const content = await utils.getContent(files[i]);
+        const result = await exports.transform(files[i], content);
+        await utils.saveFile(files[i], String(result));
 
         // 把重命名信息放到contextStore中
         const {isComponentNameTransformed, componentRenameMap} = result.data;

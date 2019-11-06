@@ -1,0 +1,10 @@
+<!--components/tab/index.wxml-->
+<view class="u-class u-tabs-tab {{ scroll ? 'u-tabs-tab-scroll' : '' }} {{ current ? 'u-tabs-tab-current' : '' }}">
+    <u-badge dot="{{ dot }}" count="{{ dot ? 0 : count }}">
+        <view bindtap="handleClickItem">
+            <view class="u-tabs-tab-title {{ current ? 'u-tabs-tab-title-current' : '' }}" wx:if="{{ current && currentColor }}" style="color: {{ currentColor }}">{{ title }}</view>
+            <view class="u-tabs-tab-title {{ current ? 'u-tabs-tab-title-current' : '' }}" wx:else>{{ title }}</view>
+        </view>
+    </u-badge>
+    <view class="u-tabs-tab-bar" wx:if="{{ current }}" style="background: {{ currentColor }}"></view>
+</view>

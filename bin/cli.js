@@ -13,6 +13,7 @@ const wxmp2swan = require('../index');
 const argv = require('minimist')(process.argv.slice(2));
 const installConfig = require('../src/config/installConfig');
 const nowPath = process.cwd();
+const {WX2BD} = require('../src/store/const');
 
 program
     .version(package.version)
@@ -52,8 +53,7 @@ checkVersion()
 
         inquirer.prompt(installConfig)
             .then(configTpl => {
-                //目前type只支持wxmp2swan
-                let type = configTpl.appType || 'wxmp2swan';
+                let type = configTpl.appType || WX2BD;
                 const fromPath = path.resolve(argv._[0]);
                 const toPath = argv._[1] ? path.resolve(argv._[1]) : null;
                 const logPath = argv._[2] ? path.resolve(argv._[2]) : null;

@@ -43,6 +43,7 @@ swan.login({
       console.log('登录失败！' + res.errMsg);
     }
   }
+
 });
 swan.aaa = 111;
 swan['bbb'] = 222;

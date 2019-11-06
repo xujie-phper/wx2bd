@@ -8,10 +8,11 @@ const path = require('path');
 const t = require('babel-types');
 const logStore = require('./store/log');
 const contextStore = require('./store/context');
+const {WX2BD} = require('./store/const');
 
-exports.transformWxs = function* transformApi(context) {
+exports.transformWxs = async function transformApi(context) {
     // 过滤js文件
-    const files = yield new Promise(resolve => {
+    const files = await new Promise(resolve => {
         let filePath = context.dist;
         // 添加支持单一文件入口逻辑
         if (utils.isDirectory(filePath)) {
@@ -27,16 +28,16 @@ exports.transformWxs = function* transformApi(context) {
         }
     });
     const api = require('../config/' + context.type + '/api');
-    const prefix = context.type === 'wxmp2swan' ? 'wx' : '';
+    const prefix = context.type === WX2BD ? 'wx' : '';
     // 用于转换context
     const transformedCtx = api.ctx;
     let content;
     // 遍历文件进行转换
     for (let i = 0; i < files.length; i++) {
-        content = yield utils.getContent(files[i]);
+        content = await utils.getContent(files[i]);
         // const code = transformApiContent(content, api, prefix, transformedCtx, files[i]);
         const code = content.replace(/module.exports[\s]+=/, 'export default');
-        yield utils.saveFile(files[i], code);
+        await utils.saveFile(files[i], code);
     }
     console.log(chalk.cyan('🎉    Successfully wxs'));
 };

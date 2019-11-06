@@ -35,8 +35,8 @@ module.exports.transformViewContent = function (path, contents, context) {
  *
  * @param {Object} context 转换上下文
  */
-module.exports.transformView = function* transformView(context) {
-    const files = yield new Promise(resolve => {
+module.exports.transformView = async function transformView(context) {
+    const files = await new Promise(resolve => {
         let filePath = context.dist;
         // 添加支持单一文件入口逻辑
         if (utils.isDirectory(filePath)) {
@@ -58,9 +58,9 @@ module.exports.transformView = function* transformView(context) {
     });
 
     for (let i = 0; i < files.length; i++) {
-        const content = yield utils.getContent(files[i]);
-        const result = yield exports.transformViewContent(files[i], content, context);
-        yield utils.saveFile(files[i], String(result));
+        const content = await utils.getContent(files[i]);
+        const result = await exports.transformViewContent(files[i], content, context);
+        await utils.saveFile(files[i], String(result));
     }
     console.log(chalk.cyan('🎉    Successfully wxml'));
 };

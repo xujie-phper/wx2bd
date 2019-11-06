@@ -6,7 +6,7 @@
 
 'use strict';
 
-const viewConfig = require('../../../config/wxmp2swan/view');
+const viewConfig = require('../../../config/wx2bd/view');
 const FAKE_ROOT = require('../util').fakeRoot;
 
 const SINGLE_QUOTE = '\'';

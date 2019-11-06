@@ -1,4 +1,4 @@
-/* components/button/button.css */
+/* components/button/button.wxss */
 .u-btn {
     border: 0!important;
     outline: none!important;
