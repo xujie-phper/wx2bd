@@ -19,6 +19,6 @@
 
 ### 项目介绍
 
-[小程序互转文档](https://juejin.im/post/5d70b6e0518825103e545a21)
+[基于小程序的AST实践](https://juejin.im/post/5d70b6e0518825103e545a21)
 
 
