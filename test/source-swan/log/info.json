@@ -2,7 +2,7 @@
     {
         "type": "Component behaviors",
         "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
-        "row": 60,
+        "row": 64,
         "column": 16,
         "before": "'wx://form-field'",
         "after": "\"swan://form-field\"",
@@ -11,7 +11,7 @@
     {
         "type": "Component behaviors",
         "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
-        "row": 60,
+        "row": 64,
         "column": 35,
         "before": "'wx://component-export'",
         "after": "\"swan://component-export\"",
@@ -20,7 +20,7 @@
     {
         "type": "transform context && method",
         "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
-        "row": 57,
+        "row": 61,
         "column": 0,
         "before": "wx.navigateToMiniProgram",
         "after": "swan.navigateToSmartProgram",

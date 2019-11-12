@@ -16,7 +16,7 @@
 <scroll-view scroll-top="{=0=}" scroll-left="{=0=}" scroll-into-view="{=test=}"></scroll-view>
 <movable-view x="{=1=}" y="{=1=}"></movable-view>
 <slider value="{=1=}"></slider>
-<list />
+<List />
 <hello-world />
 <table-head />
 <normal />
@@ -30,3 +30,17 @@
 <button ontap="ontap" testontap="ontap">点击</button>
 
 
+<import-sjs module="parse">
+    var some_msg = "hello world";
+    export default {
+        setStyle: function (item) {
+            var defaultBackColor = '#f7f7f7';
+            return 'background-color: ' + (item.background ? item.background : defaultBackColor) + '; color: ' + item.color + '; width: ' + item.width + 'px;';
+        },
+        setPosition: function (position) {
+            return 'transform: translateX(' + position.pageX + 'px);';
+        }
+    }
+</import-sjs>
+
+<import-sjs module="test" src='./index.sjs'></import-sjs>

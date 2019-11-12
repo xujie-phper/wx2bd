@@ -1,6 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-      "u-badge": "../badge/index"
+    "u-badge": "../badge/index"
   }
 }

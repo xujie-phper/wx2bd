@@ -51,9 +51,22 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                     programBody.node.body.unshift(t.ImportDeclaration([ImportSpecifier], source));
                 }
 
+                callPath.traverse({
+                    ObjectProperty(objectPath){
+                        if(objectPath.node.key.type === 'StringLiteral' && /cookie/i.test(objectPath.node.key.value)){
+                            let headerBody = objectPath.findParent(path => {
+                                return t.isObjectProperty(path) && t.isIdentifier(path.node.key) && path.node.key.name === 'header';
+                            });
+
+                            objectPath.node.value = t.Identifier('cookie');
+                        }
+                    }
+                });
+
                 let cookieBody = t.CallExpression(t.Identifier(GET_BDUSS_STOKEN), []);
                 let requestBody = t.CallExpression(callPath.node.callee, callPath.node.arguments);
-                callPath.parentPath.replaceWith(t.CallExpression(t.MemberExpression(cookieBody, t.Identifier('then')), [requestBody]));
+                let arrowFunctionBody = t.arrowFunctionExpression([t.Identifier('cookie')], requestBody, false);
+                callPath.parentPath.replaceWith(t.CallExpression(t.MemberExpression(cookieBody, t.Identifier('then')), [arrowFunctionBody]));
 
                 const afterCode = generate(callPath.node).code;
                 logStore.dispatch({

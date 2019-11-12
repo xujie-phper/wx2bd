@@ -44,26 +44,32 @@ module.exports.transform = function (path, contents) {
         const newUsingComponents = {};
         Object.keys(json.usingComponents).forEach(
             name => {
+                let componentPath = json.usingComponents[name];
+                if (componentPath.indexOf('@baidu') > -1) {
+                    componentPath = '/miniprogram_npm/' + componentPath;
+                }
                 if (/[A-Z_]/.test(name)) {
                     isComponentNameTransformed = true;
 
                     const newName = _.kebabCase(name);
                     componentRenameMap[name] = newName;
-                    newUsingComponents[newName] = json.usingComponents[name];
-                }
-                else {
-                    newUsingComponents[name] = json.usingComponents[name];
+                    newUsingComponents[newName] = componentPath;
+                } else {
+                    newUsingComponents[name] = componentPath;
                 }
             }
         );
+
         json.usingComponents = newUsingComponents;
     }
 
     if (isComponentNameTransformed) {
-        vfile.data.isComponentNameTransformed = true;
-        vfile.data.componentRenameMap = componentRenameMap;
-        vfile.contents = JSON.stringify(json, null, indent);
+        //无需判断，所有文件都执行
     }
+    vfile.data.isComponentNameTransformed = true;
+    vfile.data.componentRenameMap = componentRenameMap;
+    vfile.contents = JSON.stringify(json, null, indent);
+
     return Promise.resolve(vfile);
 };
 

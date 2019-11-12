@@ -1,6 +1,6 @@
 {
     "usingComponents": {
-        "List": "/path/to/list",
+        "list": "@baidu/tab/index",
         "HelloWorld": "/path/to/HelloWorld",
         "table_head": "/path/to/table_head",
         "normal": "/path/to/normal",

@@ -30,3 +30,17 @@
 <button ontap="ontap" testontap="ontap">点击</button>
 
 
+<wxs module="parse">
+    var some_msg = "hello world";
+    module.exports   = {
+        setStyle: function (item) {
+            var defaultBackColor = '#f7f7f7';
+            return 'background-color: ' + (item.background ? item.background : defaultBackColor) + '; color: ' + item.color + '; width: ' + item.width + 'px;';
+        },
+        setPosition: function (position) {
+            return 'transform: translateX(' + position.pageX + 'px);';
+        }
+    }
+</wxs>
+
+<wxs module="test" src='./index.wxs'></wxs>

@@ -33,8 +33,12 @@ swan.login({
   success(res) {
     if (res.code) {
       //发起网络请求
-      getCookieForSystem().then(swan.request({
+      getCookieForSystem().then(cookie => swan.request({
         url: 'https://test.com/onLogin',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded',
+          "Cookie": cookie
+        },
         data: {
           code: res.code
         }

@@ -1,3 +1,7 @@
 {
-  "component": true
+    "usingComponents": {
+        "list": "@baidu/test/test",
+        "normal": "/path/to/normal",
+        "with1": "/path/to/with1"
+    }
 }

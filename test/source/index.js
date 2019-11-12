@@ -27,11 +27,15 @@ while (wx) {
 }
 
 wx.login({
-    success (res) {
+    success(res) {
         if (res.code) {
             //发起网络请求
             wx.request({
                 url: 'https://test.com/onLogin',
+                header: {
+                    'content-type': 'application/x-www-form-urlencoded',
+                    "Cookie": 'test'
+                },
                 data: {
                     code: res.code
                 }

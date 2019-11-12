@@ -4,8 +4,8 @@
         "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
         "row": 33,
         "column": 12,
-        "before": "wx.request({\n  url: 'https://test.com/onLogin',\n  data: {\n    code: res.code\n  }\n})",
-        "after": "wx.request({\n  url: 'https://test.com/onLogin',\n  data: {\n    code: res.code\n  }\n})",
+        "before": "wx.request({\n  url: 'https://test.com/onLogin',\n  header: {\n    'content-type': 'application/x-www-form-urlencoded',\n    \"Cookie\": 'test'\n  },\n  data: {\n    code: res.code\n  }\n})",
+        "after": "wx.request({\n  url: 'https://test.com/onLogin',\n  header: {\n    'content-type': 'application/x-www-form-urlencoded',\n    \"Cookie\": cookie\n  },\n  data: {\n    code: res.code\n  }\n})",
         "message": "获取bduss的逻辑已被自动注入，请移除项目中的所有passport依赖包"
     },
     {

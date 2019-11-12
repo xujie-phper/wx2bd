@@ -1,4 +1,8 @@
 {
-  "component": true,
-  "usingComponents": {}
+    "component": true,
+    "usingComponents": {
+        "list": "@baidu/tab/index",
+        "normal": "/path/to/normal",
+        "with1": "/path/to/with1"
+    }
 }

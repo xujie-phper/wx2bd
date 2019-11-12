@@ -93,11 +93,11 @@ function tranformImport(node, file, options) {
  */
 function transformWXS(node, file, options) {
     if (node.name === 'wxs') {
-        node.name = 'filter';
+        node.name = 'import-sjs';
         if (node.attribs.src && node.attribs.src.indexOf('.wxs') > -1) {
-            node.attribs.src = node.attribs.src.replace(/.wxs$/, '.filter.js');
+            node.attribs.src = node.attribs.src.replace(/.wxs$/, '.sjs');
         } else {
-            //TODO Filter只能导出function函数,如果有变量，需要自行转换，记录日志
+            //TODO SJS好像是支持 module.exports导出的，没必要转换
             let data = node.children[0] && node.children[0].data;
             if (typeof data === 'string' && data.indexOf('module.exports') > -1) {
                 node.children[0].data = data.replace(/module.exports[\s]+=/, 'export default');

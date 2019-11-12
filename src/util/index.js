@@ -12,18 +12,18 @@ const swanFileSuffix = 'swan';
 const cssFileSuffix = 'css';
 const jsFileSuffix = 'js';
 const configFileSuffix = 'json';
-const wxsFileSuffix = 'filter.js';
+const wxsFileSuffix = 'sjs';
 
 const suffixMap = {
     'wx2bd': {
         'wxml': 'swan',
         'wxss': 'css',
-        'filter.js': 'wxs'
+        'wxs': 'sjs'
     },
     'bd2wx': {
         'swan': 'wxml',
         'css': 'wxss',
-        'wxs': 'filter.js'
+        'sjs': 'wxs'
     }
 };
 
@@ -79,12 +79,12 @@ function copyDirectory(fromPath, toPath, type) {
         arr.push(
             recursiveCopy(
                 path.join(fromPath, lists[i]),
-                // path.join(toPath, lists[i].replace(/wxml$/, swanFileSuffix).replace(/wxs$/, wxsFileSuffix).replace(/wxss$/, cssFileSuffix).replace(/miniprogram_npm/, 'node_modules')),
                 path.join(toPath, listMap),
                 options
             )
         );
     }
+
     return Promise.all(arr);
 }
 
@@ -117,7 +117,7 @@ function renameFileExt(filePath, type) {
     Object.keys(suffixMap[type]).find(ele => {
         let regRex = new RegExp(ele);
         if (regRex.test(filePath)) {
-            filePath.replace(regRex, suffixMap[type][ele]);
+            filePath = filePath.replace(regRex, suffixMap[type][ele]);
             return true;
         } else {
            return false;
@@ -125,18 +125,6 @@ function renameFileExt(filePath, type) {
     });
 
     return filePath;
-
-    // if (/wxml/.test(filePath)) {
-    //     return filePath.replace(/wxml$/, swanFileSuffix);
-    // }
-    // else if (/wxss/.test(filePath)) {
-    //     return filePath.replace(/wxss$/, cssFileSuffix);
-    // } else if (/wxs/.test(filePath)) {
-    //     return filePath.replace(/wxs$/, wxsFileSuffix);
-    // }
-    // else {
-    //     return filePath;
-    // }
 }
 
 /**
