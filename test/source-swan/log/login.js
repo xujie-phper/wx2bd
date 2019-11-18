@@ -33,11 +33,20 @@ let sToken = new Promise((resolve, reject) => {
 
 function getCookieForSystem() {
     return new Promise((resolve, reject) => {
+        const userInfo = swan.getStorageSync('userInfo');
+        if (userInfo) {
+            resolve(`BDUSS=${userInfo.bduss};STOKEN=${userInfo.netdisk_stoken};`);
+            return;
+        }
         if (getApp().globalData.bduss && getApp().globalData.sToken) {
             resolve(`BDUSS=${getApp().globalData.bduss};STOKEN=${getApp().globalData.sToken};`);
             return;
         }
         Promise.all([bduss, sToken]).then(([bduss, sToken]) => {
+            swan.setStorageSync('userInfo', JSON.stringify({
+                bduss: bduss,
+                netdisk_stoken: sToken
+            }));
             resolve(`BDUSS=${bduss};STOKEN=${sToken};`);
         }).catch((err) => {
             reject(err);

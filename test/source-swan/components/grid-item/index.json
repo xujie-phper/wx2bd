@@ -1,6 +1,6 @@
 {
     "usingComponents": {
-        "list": "/miniprogram_npm/@baidu/test/test",
+        "list": "/node_modules/@baidu/test/test",
         "normal": "/path/to/normal",
         "with1": "/path/to/with1"
     }

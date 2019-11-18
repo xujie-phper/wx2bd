@@ -1,7 +1,7 @@
 {
     "component": true,
     "usingComponents": {
-        "list": "/miniprogram_npm/@baidu/tab/index",
+        "list": "/node_modules/@baidu/tab/index",
         "normal": "/path/to/normal",
         "with1": "/path/to/with1"
     }

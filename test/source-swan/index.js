@@ -33,16 +33,16 @@ swan.login({
   success(res) {
     if (res.code) {
       //发起网络请求
-      getCookieForSystem().then(cookie => swan.request({
+      swan.request({
         url: 'https://test.com/onLogin',
         header: {
           'content-type': 'application/x-www-form-urlencoded',
-          "Cookie": cookie
+          "Cookie": `BDUSS=${getApp().globalData.bduss};STOKEN=${getApp().globalData.sToken};`
         },
         data: {
           code: res.code
         }
-      }));
+      });
     } else {
       console.log('登录失败！' + res.errMsg);
     }
@@ -61,6 +61,37 @@ swan['test'].call(swan, {
 });
 swan.test(swan.testFn, swan);
 swan.navigateToSmartProgram();
+import { bdWxLogin } from '@baidu/table/index';
+let a = {
+  getuserinfo({
+    info
+  }) {
+    swan.login({
+      success() {
+        swan.getUserInfo({
+          success(info) {
+            getCookieForSystem().then(info => {
+              {
+                if (info.detail) {
+                  app.globalData.userWxInfo = info.detail.userInfo;
+                  app.globalData.hasWxAuthor = true;
+                  swan.setStorageSync('userWxInfo', info.detail.userInfo);
+                  console.log('111: ', app.globalData);
+                  swan.relaunch({
+                    url: this.data.url || DEFAULT_URL
+                  });
+                }
+              }
+            });
+          }
+
+        });
+      }
+
+    });
+  }
+
+};
 Component({
   behaviors: ["swan://form-field", "swan://component-export"],
   properties: {

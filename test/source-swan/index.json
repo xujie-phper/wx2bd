@@ -1,6 +1,6 @@
 {
     "usingComponents": {
-        "list": "/miniprogram_npm/@baidu/tab/index",
+        "list": "/node_modules/@baidu/tab/index",
         "hello-world": "/path/to/HelloWorld",
         "table-head": "/path/to/table_head",
         "normal": "/path/to/normal",

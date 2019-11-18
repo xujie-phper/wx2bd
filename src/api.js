@@ -13,7 +13,7 @@ const componentConf = require('../config/wx2bd/component');
 const path = require('path');
 
 let relationsMap = {};  //记录relations中的map映射关系
-const propertiesString = 'xujie-xXksjUhmbvhaks';    //临时字面量
+const propertiesString = 'xXksjUhmbvhaks';    //临时字面量
 const SWAN_ID_FOR_SYSTEM = 'swanIdForSystem';   //解决组件依赖关系的系统添加属性
 const GET_BDUSS_STOKEN = 'getCookieForSystem';    //  系统提供的获取鉴权的API
 let selectComponentNode = {}; //   保存onLoad中使用的selectComponent方法代码段
@@ -33,40 +33,42 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
             }
             if (callPath.node.callee.type === 'MemberExpression' && callPath.node.callee.object.name === 'wx' && callPath.node.callee.property.name === 'request') {
                 const sourceCode = generate(callPath.node).code;
-                let getCookieBody = callPath.findParent(path => {
-                    let calleeBody = path.node.type === 'CallExpression' && path.node.callee.type === 'MemberExpression' && path.node.callee;
-                    return calleeBody && calleeBody.object.type === 'CallExpression' && calleeBody.object.callee.type === 'Identifier' && calleeBody.object.callee.name === GET_BDUSS_STOKEN;
-                });
-                if (getCookieBody) {
-                    return;
-                }
-                let programBody = callPath.findParent(path => {
-                    return t.isProgram(path);
-                });
-
-                if (programBody) {
-                    let ImportSpecifier = t.ImportSpecifier(t.Identifier(GET_BDUSS_STOKEN), t.Identifier(GET_BDUSS_STOKEN));
-                    let relativePath = getRelativePath(file, logPath + '/log/login.js');
-                    let source = t.StringLiteral(relativePath);
-                    programBody.node.body.unshift(t.ImportDeclaration([ImportSpecifier], source));
-                }
+                // let getCookieBody = callPath.findParent(path => {
+                //     let calleeBody = path.node.type === 'CallExpression' && path.node.callee.type === 'MemberExpression' && path.node.callee;
+                //     return calleeBody && calleeBody.object.type === 'CallExpression' && calleeBody.object.callee.type === 'Identifier' && calleeBody.object.callee.name === GET_BDUSS_STOKEN;
+                // });
+                // if (getCookieBody) {
+                //     return;
+                // }
+                // let programBody = callPath.findParent(path => {
+                //     return t.isProgram(path);
+                // });
+                //
+                // if (programBody) {
+                //     let ImportSpecifier = t.ImportSpecifier(t.Identifier(GET_BDUSS_STOKEN), t.Identifier(GET_BDUSS_STOKEN));
+                //     let relativePath = getRelativePath(file, logPath + '/log/login.js');
+                //     let source = t.StringLiteral(relativePath);
+                //     programBody.node.body.unshift(t.ImportDeclaration([ImportSpecifier], source));
+                // }
 
                 callPath.traverse({
-                    ObjectProperty(objectPath){
-                        if(objectPath.node.key.type === 'StringLiteral' && /cookie/i.test(objectPath.node.key.value)){
-                            let headerBody = objectPath.findParent(path => {
-                                return t.isObjectProperty(path) && t.isIdentifier(path.node.key) && path.node.key.name === 'header';
+                    ObjectProperty(objectPath) {
+                        if (objectPath.node.key.type === 'StringLiteral' && /cookie/i.test(objectPath.node.key.value)) {
+                            const headerBody = objectPath.findParent(path => {
+                                return t.isObjectProperty(path) && t.isIdentifier(path.node.key) && /header/i.test(path.node.key.name);
                             });
 
-                            objectPath.node.value = t.Identifier('cookie');
+                            if (headerBody) {
+                                objectPath.node.value = t.Identifier('`BDUSS=${getApp().globalData.bduss};STOKEN=${getApp().globalData.sToken};`');
+                            }
                         }
                     }
                 });
 
-                let cookieBody = t.CallExpression(t.Identifier(GET_BDUSS_STOKEN), []);
-                let requestBody = t.CallExpression(callPath.node.callee, callPath.node.arguments);
-                let arrowFunctionBody = t.arrowFunctionExpression([t.Identifier('cookie')], requestBody, false);
-                callPath.parentPath.replaceWith(t.CallExpression(t.MemberExpression(cookieBody, t.Identifier('then')), [arrowFunctionBody]));
+                // const cookieBody = t.CallExpression(t.Identifier(GET_BDUSS_STOKEN), []);
+                // const requestBody = t.CallExpression(callPath.node.callee, callPath.node.arguments);
+                // const arrowFunctionBody = t.arrowFunctionExpression([t.Identifier('cookie')], requestBody, false);
+                // callPath.parentPath.replaceWith(t.CallExpression(t.MemberExpression(cookieBody, t.Identifier('then')), [arrowFunctionBody]));
 
                 const afterCode = generate(callPath.node).code;
                 logStore.dispatch({
@@ -81,6 +83,12 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                         message: `获取bduss的逻辑已被自动注入，请移除项目中的所有passport依赖包`
                     }
                 })
+            }
+            //替换bdWxLogin跳转逻辑
+            if (callPath.node.callee.type === 'Identifier' && callPath.node.callee.name === 'bdWxLogin') {
+                const expression = callPath.node.arguments[0];
+                const code = generate(expression).code;
+                callPath.replaceWithSourceString(`swan.relaunch({url:${code}})`);
             }
 
             if (!(callPath.node.callee.name === 'Component')) {
@@ -176,6 +184,73 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
                     path.get('body').unshiftContainer('body', t.expressionStatement(selectedNode.node.expression));
                 });
                 //TODO 删除onLoad中的无用代码
+            }
+
+
+            if (path.node.key.type === 'Identifier' && path.node.key.name === 'getuserinfo') {
+                let flag = false;
+                path.traverse({
+                    Identifier(identifierPath) {
+                        if (identifierPath.node.name === 'getCookieForSystem') {
+                            flag = true;
+                        }
+                    }
+                });
+                if (flag) {
+                    return;
+                }
+
+                //获取到当前函数内的代码段
+                const methodBody = path.node.body;
+
+                const userCode = generate(methodBody).code;
+                //获取函数的执行参数
+                const paramNode = path.node.params[0];
+                let param;
+                if (paramNode.type === 'ObjectPattern') {
+                    //TODO 多参数情形
+                    const property = paramNode.properties[0];
+                    param = property.value.name;
+                } else if (paramNode.type === 'Identifier') {
+                    param = paramNode.name;
+                }
+
+                let loginUserCode = `swan.login({
+                    success() {
+                        swan.getUserInfo({
+                            success(${param}) {
+                                getCookieForSystem().then((${param}) => {
+                                    //跳转
+                                    ${userCode}
+                                })
+                            }
+                        })
+                    }
+                })`;
+
+                let programBody = path.findParent(path => {
+                    return t.isProgram(path);
+                });
+
+                if (programBody) {
+                    let ImportSpecifier = t.ImportSpecifier(t.Identifier(GET_BDUSS_STOKEN), t.Identifier(GET_BDUSS_STOKEN));
+                    let relativePath = getRelativePath(file, logPath + '/log/login.js');
+                    let source = t.StringLiteral(relativePath);
+                    programBody.node.body.unshift(t.ImportDeclaration([ImportSpecifier], source));
+                }
+
+                const MemberExpression = t.memberExpression(t.Identifier('swan'), t.Identifier(propertiesString));
+                const CallExpression = t.callExpression(MemberExpression, []);
+                const blockBody = [t.expressionStatement(CallExpression)];
+                path.replaceWith(t.objectMethod('method', t.Identifier(path.node.key.name), path.node.params, t.blockStatement(blockBody)));
+
+                path.traverse({
+                    MemberExpression(memberPath) {
+                        if (memberPath.node.property.name === propertiesString) {
+                            memberPath.parentPath.replaceWithSourceString(loginUserCode);
+                        }
+                    }
+                });
             }
             componentLog(path, file);
         }
@@ -355,8 +430,7 @@ function handleComponentRelations(path, context) {
 function getNodeMethodName(node) {
     const stringLiteralMethod = node.property.value;
     const identifierMethod = node.property.name;
-    const methodName = node.property.type === 'StringLiteral' ? stringLiteralMethod : identifierMethod;
-    return methodName;
+    return node.property.type === 'StringLiteral' ? stringLiteralMethod : identifierMethod;
 }
 
 /**

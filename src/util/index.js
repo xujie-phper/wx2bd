@@ -18,12 +18,14 @@ const suffixMap = {
     'wx2bd': {
         'wxml': 'swan',
         'wxss': 'css',
-        'wxs': 'sjs'
+        'wxs': 'sjs',
+        'miniprogram_npm': 'node_modules'
     },
     'bd2wx': {
         'swan': 'wxml',
         'css': 'wxss',
-        'sjs': 'wxs'
+        'sjs': 'wxs',
+        'node_modules': 'miniprogram_npm'
     }
 };
 
@@ -71,7 +73,7 @@ function copyDirectory(fromPath, toPath, type) {
         let listMap = lists[i];
         Object.keys(suffixMap[type]).find(ele => {
             let regRex = new RegExp(ele);
-            if(listMap !== lists[i].replace(regRex, suffixMap[type][ele])){
+            if (listMap !== lists[i].replace(regRex, suffixMap[type][ele])) {
                 listMap = lists[i].replace(regRex, suffixMap[type][ele]);
                 return true;
             }
@@ -120,7 +122,7 @@ function renameFileExt(filePath, type) {
             filePath = filePath.replace(regRex, suffixMap[type][ele]);
             return true;
         } else {
-           return false;
+            return false;
         }
     });
 

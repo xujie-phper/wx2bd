@@ -46,7 +46,7 @@ module.exports.transform = function (path, contents) {
             name => {
                 let componentPath = json.usingComponents[name];
                 if (componentPath.indexOf('@baidu') > -1) {
-                    componentPath = '/miniprogram_npm/' + componentPath;
+                    componentPath = '/node_modules/' + componentPath;
                 }
                 if (/[A-Z_]/.test(name)) {
                     isComponentNameTransformed = true;

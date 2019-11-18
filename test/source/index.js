@@ -60,6 +60,21 @@ wx.test(wx.testFn, wx);
 
 wx.navigateToMiniProgram();
 
+import {bdWxLogin} from '@baidu/table/index';
+
+let a = {
+    getuserinfo({info}) {
+        if (info.detail) {
+            app.globalData.userWxInfo = info.detail.userInfo;
+            app.globalData.hasWxAuthor = true;
+            wx.setStorageSync('userWxInfo', info.detail.userInfo);
+            console.log('111: ', app.globalData);
+            bdWxLogin(this.data.url || DEFAULT_URL);
+        }
+    }
+};
+
+
 Component({
     behaviors: ['wx://form-field', 'wx://component-export']
 });

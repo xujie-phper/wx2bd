@@ -2,7 +2,7 @@
     {
         "type": "Component behaviors",
         "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
-        "row": 64,
+        "row": 79,
         "column": 16,
         "before": "'wx://form-field'",
         "after": "\"swan://form-field\"",
@@ -11,7 +11,7 @@
     {
         "type": "Component behaviors",
         "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
-        "row": 64,
+        "row": 79,
         "column": 35,
         "before": "'wx://component-export'",
         "after": "\"swan://component-export\"",
