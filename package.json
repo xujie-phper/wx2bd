@@ -15,7 +15,6 @@
         "babel-types": "^6.26.0",
         "babylon": "^6.18.0",
         "chalk": "^2.4.1",
-        "co": "^4.6.0",
         "commander": "^3.0.0",
         "dependency-graph": "^0.7.1",
         "detect-indent": "^5.0.0",

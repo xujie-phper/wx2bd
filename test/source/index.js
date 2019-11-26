@@ -63,7 +63,7 @@ wx.navigateToMiniProgram();
 import {bdWxLogin} from '@baidu/table/index';
 
 let a = {
-    getuserinfo({info}) {
+    getuserinfo({info,res}) {
         if (info.detail) {
             app.globalData.userWxInfo = info.detail.userInfo;
             app.globalData.hasWxAuthor = true;

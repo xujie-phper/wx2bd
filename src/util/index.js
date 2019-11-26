@@ -60,6 +60,7 @@ function copyDirectory(fromPath, toPath, type) {
     const lists = fs.readdirSync(fromPath).filter(function (item) {
         return !/(node_modules|DS_store)/i.test(item);
     });
+
     const options = {
         overwrite: true,
         expand: true,

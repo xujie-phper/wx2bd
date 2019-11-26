@@ -3,7 +3,6 @@
  */
 
 const path = require('path');
-const co = require('co');
 const chalk = require('chalk');
 const json = require('./src/config/index');
 const api = require('./src/api');
@@ -23,6 +22,7 @@ module.exports = async function wxmp2swan(pathObj, cb) {
     }
     pathObj.log = pathObj.log || defultLog;
     if (pathObj.type === 'u-design') {
+        pathObj.type = pathObj.type === 'u-design' ? 'wx2bd' : pathObj.type;
         pathObj.isDesgin = true;
     }
     //TODO 目前只支持微信转百度
@@ -33,11 +33,11 @@ module.exports = async function wxmp2swan(pathObj, cb) {
         data: {}
     };
 
-    try{
+    try {
         console.log(chalk.green('🎉    Transforming  ...'));
         await utils.copyProject(pathObj.src, pathObj.dist, pathObj.type);
         await json.transformConfig(context);
-        await api.transformApi(context,pathObj.log);
+        await api.transformApi(context, pathObj.log);
         await wxs.transformWxs(context);
         await view.transformView(context);
         await css.transformCss(context);
@@ -48,7 +48,7 @@ module.exports = async function wxmp2swan(pathObj, cb) {
         console.log(chalk.green('🎉    Ok, check transform log in ')
             + chalk.blue.underline.bold('log.json')
         );
-    }catch(e){
+    } catch (e) {
         cb && cb(e);
         console.log(chalk.red('🚀    run error: ', e));
     }

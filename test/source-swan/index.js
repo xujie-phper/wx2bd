@@ -64,13 +64,14 @@ swan.navigateToSmartProgram();
 import { bdWxLogin } from '@baidu/table/index';
 let a = {
   getuserinfo({
-    info
+    info,
+    res
   }) {
     swan.login({
       success() {
         swan.getUserInfo({
-          success(info) {
-            getCookieForSystem().then(info => {
+          success() {
+            getCookieForSystem().then(() => {
               {
                 if (info.detail) {
                   app.globalData.userWxInfo = info.detail.userInfo;

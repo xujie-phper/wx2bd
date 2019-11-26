@@ -202,24 +202,13 @@ exports.transformApiContent = function transformViewContent(content, api, prefix
 
                 //获取到当前函数内的代码段
                 const methodBody = path.node.body;
-
                 const userCode = generate(methodBody).code;
-                //获取函数的执行参数
-                const paramNode = path.node.params[0];
-                let param;
-                if (paramNode.type === 'ObjectPattern') {
-                    //TODO 多参数情形
-                    const property = paramNode.properties[0];
-                    param = property.value.name;
-                } else if (paramNode.type === 'Identifier') {
-                    param = paramNode.name;
-                }
 
                 let loginUserCode = `swan.login({
                     success() {
                         swan.getUserInfo({
-                            success(${param}) {
-                                getCookieForSystem().then((${param}) => {
+                            success() {
+                                getCookieForSystem().then(() => {
                                     //跳转
                                     ${userCode}
                                 })
