@@ -1,5 +1,5 @@
 /**
- * @file swan convert wx
+ * @file wx2bd convert wx
  */
 const tips = '是个二级API，目前wx还不支持，so sad(ノへ￣、)，需要棒棒的你手动兼容下它和它返回值的api哦 ╮（﹀_﹀）╭ ';
 /**

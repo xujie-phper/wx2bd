@@ -68,7 +68,7 @@ function tranformImport(node, file, options) {
     const attribs = node.attribs;
     if (attribs && attribs.src) {
         let src = attribs.src.replace(/\.wxml$/i, '.swan');
-        // src中没有扩展名的添加默认扩展名.swan
+        // src中没有扩展名的添加默认扩展名.wx2bd
         if (!/\w+\.\w+$/.test(src)) {
             src = src + '.swan';
         }
@@ -236,9 +236,10 @@ function transformDirective(node, file, options) {
                 if (key === 'wx:for' || key === 'wx:for-items') {
                     const item = attribs['wx:for-item'] || 'item';
                     const index = attribs['wx:for-index'] || 'index';
-                    if (typeof value === "number") {
+                    if (typeof +newValue === "number") {
+                        let array = +newValue;
                         newValue = [];
-                        for (let i = 0; i < value; i++) {
+                        for (let i = 0; i < array; i++) {
                             newValue.push(i + 1);
                         }
                     }

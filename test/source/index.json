@@ -1,8 +1,8 @@
 {
     "usingComponents": {
         "list": "@baidu/tab/index",
-        "HelloWorld": "/path/to/HelloWorld",
-        "table_head": "/path/to/table_head",
+        "hello-world": "/path/to/HelloWorld",
+        "table-head": "/path/to/table_head",
         "normal": "/path/to/normal",
         "with1": "/path/to/with1"
     },

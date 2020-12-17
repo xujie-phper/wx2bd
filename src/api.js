@@ -317,7 +317,7 @@ function transformWx(path, file, prefix, transformedCtx) {
         //         column: node.loc.start.column,
         //         before: prefix,
         //         after: transformedCtx[prefix],
-        //         message: '只转换了上下文, wx ==> swan'
+        //         message: '只转换了上下文, wx ==> wx2bd'
         //     }
         // });
     }

@@ -7,13 +7,13 @@
             <view class="u-modal-actions" s-if=" actions.length ">
                 <block s-if=" actionMode === 'horizontal' ">
                     <u-grid length="{{actions.length || 2}}" u-class="u-modal-grid">
-                        <u-grid-item length="{{actions.length || 2}}" u-class="{{ actions.length === (index + 1) ? 'u-modal-grid-item-last' : 'u-modal-grid-item' }}" s-for="item, index in  actions " s-key="{{ item.name }}">
+                        <u-grid-item length="{{actions.length || 2}}" u-class="{{ actions.length === (index + 1) ? 'u-modal-grid-item-last' : 'u-modal-grid-item' }}" s-for="item, index in " s-key="{{ item.name }}">
                             <template is="button" data="{{{ item, index }}}"></template>
                         </u-grid-item>
                     </u-grid>
                 </block>
                 <block s-else>
-                    <view class="u-modal-action-vertical" s-for="item, index in  actions " s-key="{{ item.name }}">
+                    <view class="u-modal-action-vertical" s-for="item, index in " s-key="{{ item.name }}">
                         <template is="button" data="{{{ item, index }}}"></template>
                     </view>
                 </block>

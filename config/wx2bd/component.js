@@ -26,10 +26,10 @@ module.exports = {
     // 设置内置behaviors映射关系
     behaviors: {
         'wx://form-field': {
-            mapping: 'swan://form-field'
+            mapping: 'wx2bd://form-field'
         },
         'wx://component-export': {
-            mapping: 'swan://component-export'
+            mapping: 'wx2bd://component-export'
         }
     },
     json: {

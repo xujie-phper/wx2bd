@@ -4,7 +4,7 @@
  * 作者：yhh
  */
 /*eslint-disable*/
-/*globals Page,swan,getApp,Component,getCurrentPages*/
+/*globals Page,wx2bd,getApp,Component,getCurrentPages*/
 Component({
     externalClasses: ['u-class', 'u-class-mask'],
 

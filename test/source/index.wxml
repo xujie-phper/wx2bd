@@ -29,6 +29,8 @@
 <view class="test" style="background: url(//img0.sc115.com/uploads1/sc/jpgs/1510/apic15069_sc115.com.jpg)"></view>
 <button ontap="ontap" testontap="ontap">点击</button>
 
+<view wx:for="{{5}}">test</view>
+
 
 <wxs module="parse">
     var some_msg = "hello world";

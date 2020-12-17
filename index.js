@@ -1,5 +1,5 @@
 /**
- * @file wxml convert swan
+ * @file wxml convert wx2bd
  */
 
 const path = require('path');
@@ -57,9 +57,9 @@ module.exports = async function wxmp2swan(pathObj, cb) {
 function getDefaultDist(dist) {
     let res = '';
     if (utils.isDirectory(dist)) {
-        res = path.join(path.dirname(dist), path.basename(dist) + '-swan');
+        res = path.join(path.dirname(dist), path.basename(dist) + '-wx2bd');
     } else {
-        res = path.join(path.dirname(dist) + '-swan', path.basename(dist));
+        res = path.join(path.dirname(dist) + '-wx2bd', path.basename(dist));
     }
     return res;
 }

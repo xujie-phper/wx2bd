@@ -56,6 +56,8 @@ module.exports.transformView = async function transformView(context) {
         action: 'swanToRenamedComponents',
         payload: buildSwanComponentDepdencies(files, context)
     });
+    console.log(contextStore.swanToRenamedComponents,'swanToRenamedComponents')
+
 
     for (let i = 0; i < files.length; i++) {
         const content = await utils.getContent(files[i]);

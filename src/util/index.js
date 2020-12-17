@@ -1,5 +1,5 @@
 /**
- * @file wxml convert swan
+ * @file wxml convert wx2bd
  */
 
 const fs = require('fs-extra');

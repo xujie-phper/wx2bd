@@ -1,7 +1,7 @@
 [
     {
         "type": "用户鉴权BDUSS",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source-wx2bd/index.js",
         "row": 33,
         "column": 12,
         "before": "wx.request({\n  url: 'https://test.com/onLogin',\n  header: {\n    'content-type': 'application/x-www-form-urlencoded',\n    \"Cookie\": 'test'\n  },\n  data: {\n    code: res.code\n  }\n})",
@@ -10,7 +10,7 @@
     },
     {
         "type": "show tips",
-        "file": "/Users/xujie07/demos/wx2bd/test/source-swan/index.js",
+        "file": "/Users/xujie07/demos/wx2bd/test/source-wx2bd/index.js",
         "row": 29,
         "column": 0,
         "before": "wx.login",

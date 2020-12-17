@@ -37,13 +37,13 @@ if (argv._.length < 1) {
      or:
      ${chalk.cyan('swan')} ${chalk.green('<entry-directory>')} ${chalk.green('<output-directory>')}
 
-    Run ${chalk.cyan('swan --help')} to see all options.
+    Run ${chalk.cyan('wx2bd --help')} to see all options.
     `);
 
     // console.log(chalk.redBright(
     //     `🚀     params error: wx2swan 微信小程序目录（swan目录）
-    //                 如: swan ./test/demo ./test/swanDemo
-    //                 或者: swan ./test/demo`));
+    //                 如: wx2bd ./test/demo ./test/swanDemo
+    //                 或者: wx2bd ./test/demo`));
     process.exit(1);
 }
 
@@ -74,7 +74,7 @@ function printHelp() {
     console.log('  Examples:');
     console.log('');
     console.log('    交互式创建项目：');
-    console.log('    swan <entry-directory> <output-directory>');
+    console.log('    wx2bd <entry-directory> <output-directory>');
     console.log('');
     console.log('');
 }

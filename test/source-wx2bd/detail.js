@@ -1,4 +1,4 @@
 swan.showToast({
-  title: 'hello swan'
+  title: 'hello wx2bd'
 });
 let name = 'detail';

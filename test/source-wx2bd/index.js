@@ -94,7 +94,7 @@ let a = {
 
 };
 Component({
-  behaviors: ["swan://form-field", "swan://component-export"],
+  behaviors: ["wx2bd://form-field", "wx2bd://component-export"],
   properties: {
     length: {
       type: Number,
