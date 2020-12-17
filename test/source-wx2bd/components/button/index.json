@@ -1,8 +1,0 @@
-{
-    "component": true,
-    "usingComponents": {
-        "list": "/node_modules/@baidu/tab/index",
-        "normal": "/path/to/normal",
-        "with1": "/path/to/with1"
-    }
-}

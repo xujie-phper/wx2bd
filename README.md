@@ -1,21 +1,10 @@
 # 小程序转换工具
 
-## Quick Start
-###  获取代码
-> git clone https://github.com/xujie-phper/wx2bd.git
+正式更名为：wx2
 
-### 进入项目目录，安装依赖
-> cd wx2bd
+该工具已被百度开源团队收录，功能更加强大，团队维护，感谢支持
 
-> npm i
-
-### 设置软链接
-> npm link 
-
-### 初始化项目
-切换到自己指定的工作目录，执行全局命令swan，并指定转换目录路径，和输出目录路径
-
-例：`swan test/miniProgram test/smartProgram`
+[wx2](https://github.com/baidu/wx2)
 
 ### 项目介绍
 

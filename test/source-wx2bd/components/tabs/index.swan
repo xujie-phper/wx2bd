@@ -1,7 +1,0 @@
-<!--components/tabs/index.wxml-->
-<scroll-view s-if=" scroll " scroll-x="true" class="u-class u-tabs u-tabs-scroll {{ fixed ? 'u-tabs-fixed' : '' }}">
-  <slot></slot>
-</scroll-view>
-<view s-else class="u-class u-tabs {{ fixed ? 'u-tabs-fixed' : '' }}">
-  <slot></slot>
-</view>

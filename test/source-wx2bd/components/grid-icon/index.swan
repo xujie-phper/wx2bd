@@ -1,3 +1,0 @@
-<view class="u-class u-grid-icon">
-    <slot></slot>
-</view>

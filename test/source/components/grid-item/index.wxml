@@ -1,3 +1,0 @@
-<view class="u-class u-grid-item" style="width: {{ width }}">
-    <slot></slot>
-</view>

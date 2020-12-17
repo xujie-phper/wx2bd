@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "Tabs 标签页",
-  "usingComponents": {
-    "u-tabs": "../../../union-design-wechat/tabs/index",
-    "u-tab": "../../../union-design-wechat/tab/index"
-  }
-}

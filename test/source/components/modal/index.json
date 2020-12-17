@@ -1,9 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "u-grid": "../grid/index",
-    "u-grid-item": "../grid-item/index",
-    "u-icon": "../icon/index",
-    "u-button": "../button/index"
-  }
-}
